@@ -1,19 +1,71 @@
 \documentclass{article}
-\title{Proiect nume-materie}
+
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+\usepackage{inputenc}
+
+\geometry{a4paper,left=20mm,right=20mm}
+\inputencoding{utf8}
+\pagestyle{fancy}
+\thispagestyle{plain}
+\fancyheadoffset{0cm}
+\rhead{Proiect \textit{nume-materie}\\"nume-proiect"}
+
+\renewcommand*\contentsname{Cuprins}
+\renewcommand*\tablename{Tab.}
+\renewcommand*\figurename{Fig.}
+
 \author{Andrei Vasilcoi}
+\date{Ianuarie 2018}
 
 \begin{document}
-	\pagenumbering{gobble}
-	\maketitle
-	\newpage
-	\pagenumbering{arabic}
 	
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+	
+\begin{center}
+\textsc{\LARGE Universitatea "Transilvania" din Brașov}\\[0.5cm]
+\includegraphics[width=0.25\textwidth]{logo_ut.jpg}\\[0.5cm]
+\textsc{\Large Facultate de Inginerie Electrică și Știința Calculatoarelor}\\[0.5cm]
+\textsc{\large Departament Automatică și Informatică Aplicată}\\[1.5cm]
+\HRule\\[0.5cm]
+{\Large Proiect \textit{Nume-materie}}\\[0.5cm]
+{\LARGE\bfseries "Nume-proiect"}\\[0.5cm]
+\HRule\\[1.5cm]
+	
+\begin{minipage}{0.4\textwidth}
+	\begin{flushleft}
+		\large
+		\textit{Autor}\\
+		Andrei \textsc{Vasilcoi}\\
+	\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+	\begin{flushright}
+		\large
+		\textit{Îndrumător}\\
+		Prenume \textsc{Nume}
+	\end{flushright}
+\end{minipage}
+\vfill
+{\large Ianuarie 2018, Brașov}\\[1cm]
+\end{center}
+\end{titlepage}
+
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+
+\newpage	
 \section{Section}
 
 Hello World!
 
 \subsection{Subsection}
 
-Structuring a document is easy!
+Structuring a document is easy!\\
 
 \end{document}
