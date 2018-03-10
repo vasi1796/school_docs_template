@@ -15,12 +15,10 @@
 \renewcommand*\contentsname{Cuprins}
 \renewcommand*\tablename{Tab.}
 \renewcommand*\figurename{Fig.}
-
+\renewcommand\refname{Bibliografie}
 \author{Andrei Vasilcoi}
-\date{Ianuarie 2018}
 
 \begin{document}
-	
 \begin{titlepage}
 
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
@@ -28,7 +26,7 @@
 \begin{center}
 \textsc{\LARGE Universitatea "Transilvania" din Brașov}\\[0.5cm]
 \includegraphics[width=0.25\textwidth]{logo_ut.jpg}\\[0.5cm]
-\textsc{\Large Facultate de Inginerie Electrică și Știința Calculatoarelor}\\[0.5cm]
+\textsc{\Large Facultatea de Inginerie Electrică și Știința Calculatoarelor}\\[0.5cm]
 \textsc{\large Departament Automatică și Informatică Aplicată}\\[1.5cm]
 \HRule\\[0.5cm]
 {\Large Proiect \textit{Nume-materie}}\\[0.5cm]
@@ -51,7 +49,7 @@
 	\end{flushright}
 \end{minipage}
 \vfill
-{\large Ianuarie 2018, Brașov}\\[1cm]
+{\large Iunie 2018, Brașov}\\[1cm]
 \end{center}
 \end{titlepage}
 
@@ -67,5 +65,11 @@ Hello World!
 \subsection{Subsection}
 
 Structuring a document is easy!\\
+Random citation \cite{DUMMY:1} embedded in text.
+
+\newpage
+
+\bibliography{bibliografie} 
+\bibliographystyle{ieeetr}
 
 \end{document}
