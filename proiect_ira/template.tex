@@ -1,0 +1,92 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+\usepackage{inputenc}
+\usepackage{enumitem}
+\usepackage{amsmath} 
+
+\geometry{a4paper,left=20mm,right=20mm}
+\inputencoding{utf8}
+\pagestyle{fancy}
+\thispagestyle{plain}
+\fancyheadoffset{0cm}
+\rhead{\textit{Andrei Vasilcoi}\\Grupa 4452}
+
+\renewcommand*\contentsname{Cuprins}
+\renewcommand*\tablename{Tab.}
+\renewcommand*\figurename{Fig.}
+\renewcommand\refname{Bibliografie}
+\renewcommand{\theenumi}{\Alph{enumi}}
+\author{Andrei Vasilcoi}
+
+\begin{document}
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+	
+\begin{center}
+\textsc{\LARGE Universitatea "Transilvania" din Brașov}\\[0.5cm]
+\includegraphics[width=0.25\textwidth]{logo_ut.jpg}\\[0.5cm]
+\textsc{\Large Facultatea de Inginerie Electrică și Știința Calculatoarelor}\\[0.5cm]
+\textsc{\large Departament Automatică și Informatică Aplicată}\\[1.5cm]
+\HRule\\[0.5cm]
+{\Large Proiect \textit{Ingineria reglării automate}}\\[0.5cm]
+{\LARGE\bfseries Tema nr. 57}\\[0.5cm]
+\HRule\\[1.5cm]
+	
+\begin{minipage}{0.4\textwidth}
+	\begin{flushleft}
+		\large
+		\textit{Autor}\\
+		Andrei \textsc{Vasilcoi}\\
+	\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+	\begin{flushright}
+		\large
+		\textit{Îndrumător}\\
+		Cristian \textsc{Boldișor}
+	\end{flushright}
+\end{minipage}
+\vfill
+{\large Iunie 2018, Brașov}\\[1cm]
+\end{center}
+\end{titlepage}
+
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+
+\newpage	
+\section{Tema proiectului}
+
+Se consideră un proces modelat prin funcția de transfer:
+$$G_p(s)=\frac{K_p}{(sT_{p1}+1)(sT_{p2}+1)(sT_{p3}+1)}$$
+Se cere să se realizeze o analiză comparativă a mai multor soluții privind proiectarea unui sistem de reglare automată care să respecte performanțele impuse: $e_{st}=0$, $M_v<=m_{v,max}$ și $t_s<=t_{s,max}$. (Valorile impuse ale indicatorilor de performanță sunt date în tabel.) Pentru notarea timpului de stabilire se consideră banda de stabilitate de 2\%. \\
+Soluțiile impuse sunt:
+\begin{enumerate}[label=\alph*)]
+	\item proiectarea unui regulator PID prin metode de cvasi-optim: criteriul modulului standard sau varianta Kessler;
+	\item metode experimentale de proiectare a regulatoarelor PID: metoda Ziegler-Nichols (a răspunsului la intrare treaptă);
+	\item proiectarea unui sistem de reglare după stare.
+\end{enumerate}
+Detalii privind cerințele:
+\begin{enumerate}[label=\arabic*.]
+	\item Pentru fiecare soluție se vor realiza scheme Simulink și se vor nota performanțele obținute. Dacă este necesar, se vor ajusta suplimentar parametrii regulatoarelor până când sistemul de reglare respectă performanțele impuse.
+	\item Pentru fiecare lege de reglare obținută se vor determina ecuațiile cu diferențe necesare unei implementări numerice. Se va prezenta codul sursă al unui program de implementare a cel puțin unui regulator.
+	\item În capitolul de concluzii se va prezenta o comparație a performanțelor obținute, a efortului de proiectare și a altor aspecte considerate importante cu scopul de a argumenta alegerea unei soluții ca fiind cea mai potrivită pentru cazul considerat.
+\end{enumerate}
+
+\subsection{Indicații și recomandări}
+
+Structuring a document is easy!\\
+Random citation \cite{DUMMY:1} embedded in text.
+
+\newpage
+
+\bibliography{bibliografie} 
+\bibliographystyle{ieeetr}
+
+\end{document}
