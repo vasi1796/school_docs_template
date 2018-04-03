@@ -6,6 +6,7 @@
 \usepackage{inputenc}
 \usepackage{enumitem}
 \usepackage{amsmath} 
+\usepackage{multirow}
 
 \geometry{a4paper,left=20mm,right=20mm}
 \inputencoding{utf8}
@@ -48,7 +49,7 @@
 	\begin{flushright}
 		\large
 		\textit{Îndrumător}\\
-		Cristian \textsc{Boldișor}
+	Șef lucr. dr. ing. Cristian \textsc{Boldișor}
 	\end{flushright}
 \end{minipage}
 \vfill
@@ -62,9 +63,10 @@
 
 \newpage	
 \section{Tema proiectului}
-
 Se consideră un proces modelat prin funcția de transfer:
-$$G_p(s)=\frac{K_p}{(sT_{p1}+1)(sT_{p2}+1)(sT_{p3}+1)}$$
+\begin{equation} 
+G_p(s)=\frac{K_p}{(sT_{p1}+1)(sT_{p2}+1)(sT_{p3}+1)}
+\end{equation}
 Se cere să se realizeze o analiză comparativă a mai multor soluții privind proiectarea unui sistem de reglare automată care să respecte performanțele impuse: $e_{st}=0$, $M_v<=m_{v,max}$ și $t_s<=t_{s,max}$. (Valorile impuse ale indicatorilor de performanță sunt date în tabel.) Pentru notarea timpului de stabilire se consideră banda de stabilitate de 2\%. \\
 Soluțiile impuse sunt:
 \begin{enumerate}[label=\alph*)]
@@ -79,14 +81,36 @@ Detalii privind cerințele:
 	\item În capitolul de concluzii se va prezenta o comparație a performanțelor obținute, a efortului de proiectare și a altor aspecte considerate importante cu scopul de a argumenta alegerea unei soluții ca fiind cea mai potrivită pentru cazul considerat.
 \end{enumerate}
 
-\subsection{Indicații și recomandări}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+	\hline
+	{\multirow{2}{*}{Tema nr.} } &  \multicolumn{4}{ c| }{Parametrii procesului} & {\multirow{2}{*}{$M_{v, max}$}} & {\multirow{2}{*}{$t_{s, max}$}} & {\multirow{2}{*}{Student}} \\ \cline{2-5}
+	&$K_p$ & $T_{p1}$ & $T_{p2}$ & $T_{p3}$ & & & \\ 
+	\hline
+ \multirow{2}*{57} & \multirow{2}*{1.1} & \multirow{2}*{0.7} & \multirow{2}*{0.5} & \multirow{2}*{10} & \multirow{2}*{1\%} & \multirow{2}*{3s} & \multirow{2}*{Vasilcoi S. Andrei} \\ &&&&&&& \\
+	\hline
+\end{tabular}
+\end{center}
 
-Structuring a document is easy!\\
+\section{Indicații și recomandări}
+\begin{enumerate}[label=\alph*)]
+	\item Pentru proiectarea prin metode analitice (de qvasi-optim), la determinarea prin calcul a parametrilor regulatorului se vor considera modele simplificate ale procesului dat. Simplificările trebuie să fie argumentate. La simulări însă, se va utiliza funcția de transfer dată inițial.
+	\item Pentru metoda experimentală, este necesară a procesare cât mai precisă a răspunsului procesului în circuit deschis la semnal de intrare de tip treaptă. Pentru acest lucru este indicat să se realizeze un program Matlab.
+	\item Pentru proiectarea unui sistem de reglare după stare, se va determina inițial modelul în spațiul stărilor. Apoi se va evalua controlabilitatea și observabilitatea modelului obținut.
+	\item La determinarea ecuațiilor cu diferențe, valoarea aleasă a perioadei de eșantionare se va argumenta.
+\end{enumerate}
+
+\section{Rezolvare}
+\subsection{Proiectarea unui regulator PID prin metode de cvasi-optim: criteriul modulului standard sau varianta Kessler}
+\subsection{Metode experimentale de proiectare a regulatoarelor PID: metoda Ziegler-Nichols (a răspunsului la intrare treaptă)}
+\subsection{Proiectarea unui sistem de reglare după stare}
 Random citation \cite{DUMMY:1} embedded in text.
-
 \newpage
 
-\bibliography{bibliografie} 
+\section{Concluzii}
+
+\newpage
+\bibliography{bibliografie}
 \bibliographystyle{ieeetr}
 
 \end{document}
