@@ -1,3 +1,4 @@
+%!TeX program = xelatex
 \documentclass{article}
 
 \usepackage{graphicx}
@@ -9,6 +10,8 @@
 \usepackage{multirow}
 \usepackage{caption}
 \usepackage{float}
+\usepackage{fontspec}
+\setmainfont{UT Sans}
 
 \geometry{a4paper,left=20mm,right=20mm}
 \inputencoding{utf8}
@@ -23,23 +26,23 @@
 \renewcommand\refname{Bibliografie}
 \renewcommand{\theenumi}{\Alph{enumi}}
 \author{Andrei Vasilcoi}
-
+\newcommand{\EqRow}{\vspace{1.5mm}}
 \begin{document}
 \begin{titlepage}
 
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 	
 \begin{center}
-\textsc{\LARGE Universitatea "Transilvania" din Brașov}\\[0.5cm]
+	%autor si indrumator mai jos
+\textsc{\LARGE Universitatea Transilvania din Brașov}\\[0.5cm]
 \includegraphics[width=0.25\textwidth]{logo_ut.jpg}\\[0.5cm]
 \textsc{\Large Facultatea de Inginerie Electrică și Știința Calculatoarelor}\\[0.5cm]
 \textsc{\large Departament Automatică și Informatică Aplicată}\\[1.5cm]
 \HRule\\[0.5cm]
 {\Large Proiect \textit{Ingineria reglării automate}}\\[0.5cm]
 {\LARGE\bfseries Tema nr. 57}\\[0.5cm]
-\HRule\\[1.5cm]
-	
-\begin{minipage}{0.4\textwidth}
+\HRule\\[2.5cm]
+\begin{minipage}{1\textwidth}
 	\begin{flushleft}
 		\large
 		\textit{Autor}\\
@@ -47,15 +50,8 @@
 	\end{flushleft}
 \end{minipage}
 ~
-\begin{minipage}{0.4\textwidth}
-	\begin{flushright}
-		\large
-		\textit{Îndrumător}\\
-	Șef lucr. dr. ing. Cristian \textsc{Boldișor}
-	\end{flushright}
-\end{minipage}
 \vfill
-{\large Iunie 2018, Brașov}\\[1cm]
+{\large Iunie 2018, Brașov}\\[5cm]
 \end{center}
 \end{titlepage}
 
@@ -66,8 +62,10 @@
 \newpage	
 \section{Tema proiectului}
 Se consideră un proces modelat prin funcția de transfer:
+\EqRow
 \begin{equation} 
 G_p(s)=\frac{K_p}{(sT_{p1}+1)(sT_{p2}+1)(sT_{p3}+1)}
+\EqRow
 \end{equation}
 Se cere să se realizeze o analiză comparativă a mai multor soluții privind proiectarea unui sistem de reglare automată care să respecte performanțele impuse: $e_{st}=0$, $M_v<=m_{v,max}$ și $t_s<=t_{s,max}$. (Valorile impuse ale indicatorilor de performanță sunt date în tabel.) Pentru notarea timpului de stabilire se consideră banda de stabilitate de 2\%. \\
 Soluțiile impuse sunt:
@@ -106,33 +104,28 @@ Detalii privind cerințele:
 \section{Rezolvare}
 \subsection{Proiectarea unui regulator PID prin metode de cvasi-optim: varianta Kessler}
 Se consideră funcția de transfer:
-\begin{equation} 
+\EqRow
+\begin{equation}
 G_p(s)=\frac{1.1}{(0.7s+1)(0.5s+1)(10s+1)}
+\EqRow
 \end{equation}
 Se poate obseva că funcția de transfer a procesului nu are zerouri și are o  constantă de timp mare si două constant de timp mici, ce pot fi compensate. Pentru proiectarea regulatorului vom folosi criteriul modulului varianta Kessler. Varianta Kessler permite ca toate constantele de timp mici sa se înlocuiesca cu o singură constantă de timp obținută din suma acestora notată cu $T_{\Sigma}=T_{p1}+T_{p2}$.
 Forma funcției de transfer în buclă deschisă pentru metoda Kessler este:
+\vfill
 \begin{equation} 
 G_d^{CMVK}(s)=\frac{1}{2sT_{\Sigma}(sT_{\Sigma}+1)}
 \end{equation}
+\EqRow
 \begin{equation} 
 G_d^{CMVK}(s)=G_R(s)G_p(s)
+\EqRow
 \end{equation}
 Pentru rezolvarea prin metoda Kessler calculele se vor efectua utilizând forma simplificată a procesului. În simulare însa se va folosi forma originală a procesului. Rezolvarea ecuațiilor și aflarea funcției de transfer a regulatorului este:
+\vfill
 $$T_{\Sigma}=0.7+0.5=1.2$$
-$$G_R(s)=\cfrac{G_d^{CMVK}(s)}{G_p(s)}=\cfrac{\cfrac{1}{2.4s(1.2s+1)}}{\cfrac{1.1}{(1.2s+1)(10s+1)}}=\cfrac{10s+1}{2.64s}=\cfrac{2.64}{10}\cfrac{10s+1}{10s}=3.78(1+\cfrac{1}{10s})$$
+\vfill
+$$G_R(s)=\cfrac{G_d^{CMVK}(s)}{G_p(s)}=\cfrac{\cfrac{1}{2.4s(1.2s+1)}}{\cfrac{1.1}{(1.2s+1)(10s+1)}}=\cfrac{10s+1}{2.64s}=\cfrac{10}{2.64}\cfrac{10s+1}{10s}=3.78(1+\cfrac{1}{10s})\EqRow$$
 Din rezolvare rezultă un regulator PI care are un zero ce compensează constanta de timp mare a procesului. De asemenea conține si componentă integrativă care asigură $e_{st}=0$. Funcția de transfer respectă condiția de realizabilitate fizică. Performanțele sistemului și identificarea coeficienților se pot observa în tabelul 2, Fig.1 și Fig.2.:
-\begin{center}
-	\captionof{table}{Performanțe}
-	\begin{tabular}{|c|c|c|c|c|c|c|}
-		\hline
-		&$e_{st}$&$M_v$&$t_s$&$K_r$&$T_i$\\
-		\hline
-		Impus&0&1&3&-&-\\
-		\hline
-		Obtinut&0&4.63&10.04&3.78&10\\
-		\hline
-	\end{tabular}
-\end{center}
 \begin{figure}[H]
 	\centering
 	\begin{minipage}{.4\textwidth}
@@ -148,9 +141,8 @@ Din rezolvare rezultă un regulator PI care are un zero ce compensează constant
 		\label{fig:test2}
 	\end{minipage}
 \end{figure}
-După ulterioare încercari de a modifica coeficienții regulatorului s-au obținut performanțele din Tab. 3:
 \begin{center}
-	\captionof{table}{Not ready}
+	\captionof{table}{Performanțe}
 	\begin{tabular}{|c|c|c|c|c|c|c|}
 		\hline
 		&$e_{st}$&$M_v$&$t_s$&$K_r$&$T_i$\\
@@ -158,9 +150,41 @@ După ulterioare încercari de a modifica coeficienții regulatorului s-au obți
 		Impus&0&1&3&-&-\\
 		\hline
 		Obtinut&0&4.63&10.04&3.78&10\\
-		Obtinut&0&4.63&10.04&3.78&10\\
-		Obtinut&0&4.63&10.04&3.78&10\\
-		Obtinut&0&4.63&10.04&3.78&10\\
+		\hline
+	\end{tabular}
+\end{center}
+Avand in vedere lucrarea experimentala 2 unde s-au observat efectele modificarii parametrilor regulatorului asupra indicatorilor de calitate, s-a incercat atingerea performantelor impuse prin incercari.
+Pentru implementarea cu incercari s-a pornit de la urmatoarea forma a regulatorului PID prezenta in lucrarea 2:
+\begin{equation} 
+G_r(s)=k_r+\frac{1}{T_i}+\frac{sT_d}{sT_f+1}
+\end{equation}
+Folosind modelul simulink din Fig.3.
+\begin{figure}[H]
+	\centering
+		\includegraphics[width=.7\linewidth]{sim_incercari.png}
+		\captionof{figure}{Model PID folosit pentru incercari}
+		\label{fig:test2}
+\end{figure}
+După ulterioare încercari de a modifica coeficienții regulatorului s-au obținut performanțele din Tab. 3 si Fig.3:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.45\linewidth]{incercari.png}
+	\captionof{figure}{Raspunsul celui mai performant sistem din incercari}
+	\label{fig:test2}
+\end{figure}
+\vfill
+\begin{center}
+	\captionof{table}{Incercari experimentale}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|}
+		\hline
+		&$e_{st}$&$M_v$&$t_s$&$K_r$&$T_i$&$T_d$\\
+		\hline
+		Impus&0&1&3&-&-&-\\
+		\hline
+		Obtinut&0&0.06&5.7&7&0.7&6\\
+		Obtinut&0&0.19&4.3&7.3&0.65&5\\
+		Obtinut&0&0.09&4.25&7.4&0.63&5\\
+		Obtinut&0&4.63&10.04&3.78&10&\\
 		\hline
 	\end{tabular}
 \end{center}
