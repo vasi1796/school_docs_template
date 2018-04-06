@@ -1,5 +1,5 @@
 %!TeX program = xelatex
-\documentclass{article}
+\documentclass[11pt]{article}
 
 \usepackage{graphicx}
 \usepackage{fancyhdr}
@@ -12,8 +12,10 @@
 \usepackage{float}
 \usepackage{fontspec}
 \setmainfont{UT Sans}
+\usepackage{geometry}
 
-\geometry{a4paper,left=20mm,right=20mm}
+
+\geometry{a4paper,left=20mm,right=20mm,total={160mm,220mm}}
 \inputencoding{utf8}
 \pagestyle{fancy}
 \thispagestyle{plain}
@@ -50,9 +52,10 @@
 	\end{flushleft}
 \end{minipage}
 ~
-\vfill
-{\large Iunie 2018, Brașov}\\[5cm]
 \end{center}
+\centering
+\vspace{5cm}
+{\large Iunie 2018, Brașov}\\[5cm]
 \end{titlepage}
 
 \newpage
@@ -100,7 +103,7 @@ Detalii privind cerințele:
 	\item Pentru proiectarea unui sistem de reglare după stare, se va determina inițial modelul în spațiul stărilor. Apoi se va evalua controlabilitatea și observabilitatea modelului obținut.
 	\item La determinarea ecuațiilor cu diferențe, valoarea aleasă a perioadei de eșantionare se va argumenta.
 \end{enumerate}
-
+\newpage
 \section{Rezolvare}
 \subsection{Proiectarea unui regulator PID prin metode de cvasi-optim: varianta Kessler}
 Se consideră funcția de transfer:
@@ -159,20 +162,23 @@ Pentru implementarea cu incercari s-a pornit de la urmatoarea forma a regulatoru
 G_r(s)=k_r+\frac{1}{T_i}+\frac{sT_d}{sT_f+1}
 \end{equation}
 Folosind modelul simulink din Fig.3.
+După ulterioare încercari de a modifica coeficienții regulatorului s-au obținut performanțele din Tab. 3 si Fig.3:
+\EqRow
 \begin{figure}[H]
 	\centering
-		\includegraphics[width=.7\linewidth]{sim_incercari.png}
+	\begin{minipage}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{incercari.png}
+		\captionof{figure}{Raspunsul celui mai performant sistem din incercari}
+		\label{fig:test2}
+	\end{minipage}%
+	\begin{minipage}{.5\textwidth}
+		\centering
+		\includegraphics[width=1.4\linewidth]{sim_incercari.png}
 		\captionof{figure}{Model PID folosit pentru incercari}
 		\label{fig:test2}
+	\end{minipage}
 \end{figure}
-După ulterioare încercari de a modifica coeficienții regulatorului s-au obținut performanțele din Tab. 3 si Fig.3:
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=.45\linewidth]{incercari.png}
-	\captionof{figure}{Raspunsul celui mai performant sistem din incercari}
-	\label{fig:test2}
-\end{figure}
-\vfill
 \begin{center}
 	\captionof{table}{Incercari experimentale}
 	\begin{tabular}{|c|c|c|c|c|c|c|c|}
@@ -188,7 +194,33 @@ După ulterioare încercari de a modifica coeficienții regulatorului s-au obți
 		\hline
 	\end{tabular}
 \end{center}
+\newpage
 \subsection{Metode experimentale de proiectare a regulatoarelor PID: metoda Ziegler-Nichols}
+Pentru a aplica metoda experimentala este nevoie ca prima oara sa se inregistreze valoarea raspunsului sistemului in bucla deschisa la marimea de intrare treapta unitara.\\
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.35\linewidth]{zn_desc.png}
+	\captionof{figure}{Raspunsul sistemului in bucla deschisa}
+	\label{fig:test2}
+\end{figure}
+Avand aceste date putem calcula derivata de ordinul I. In continuare se va calcula punctul de maxim al derivatei de ordinul I si se va verifica in datele derivatei de ordinul II daca punctul de maxim indeplineste conditiile de a fi punct de inflexiune.
+O data gasit acest punct de inflexiune se va trasa tangenta la graficul raspunsului sistemului prin punctul de inflexiune. Se gasesc punctele de intersectie cu axele $x$ si $y$. \\
+\begin{figure}[H]
+	\centering
+	\begin{minipage}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{zn_pr.png}
+		\captionof{figure}{Răspunsul sistemului si derivatele de ordin I si II}
+		\label{fig:test1}
+	\end{minipage}%
+	\begin{minipage}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{zn_pct.png}
+		\captionof{figure}{Puncte necesare pentru proiectare}
+		\label{fig:test2}
+	\end{minipage}
+\end{figure}
+Aceste puncte de intersectie semnifica valorile $a$ si $L$ din algoritmul metodei experimentale care se vor folosi pentru a obtine valorile estimate ale coeficientilor regulatorului dupa cum urmeaza: 
 \subsection{Proiectarea unui sistem de reglare după stare}
 %Random citation \cite{DUMMY:1} embedded in text.
 \newpage
