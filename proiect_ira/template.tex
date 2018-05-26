@@ -11,7 +11,7 @@
 \usepackage{caption}
 \usepackage{float}
 \usepackage{fontspec}
-\setmainfont{UT Sans}
+%\setmainfont{UT Sans}
 \usepackage{geometry}
 
 
@@ -152,29 +152,29 @@ Din rezolvare rezultă un regulator PI care are un zero ce compensează constant
 		\hline
 		Impus&0&1&3&-&-\\
 		\hline
-		Obtinut&0&4.63&10.04&3.78&10\\
+		Obtinut&0&4.56&9.04&3.78&10\\
 		\hline
 	\end{tabular}
 \end{center}
 Avand in vedere lucrarea experimentala 2 unde s-au observat efectele modificarii parametrilor regulatorului asupra indicatorilor de calitate, s-a incercat atingerea performantelor impuse prin incercari.
-Pentru implementarea cu incercari s-a pornit de la urmatoarea forma a regulatorului PID prezenta in lucrarea 2:
+Pentru implementarea cu incercari s-a pornit de la urmatoarea forma a regulatorului PID prezenta in lucrarea 6:
 \begin{equation} 
-G_r(s)=k_r+\frac{1}{T_i}+\frac{sT_d}{sT_f+1}
+G_r(s)=k_r(1+\frac{1}{T_i}+\frac{sT_d}{sT_f+1})
 \end{equation}
 Folosind modelul simulink din Fig.3.
 După ulterioare încercari de a modifica coeficienții regulatorului s-au obținut performanțele din Tab. 3 si Fig.3:
 \EqRow
 \begin{figure}[H]
 	\centering
-	\begin{minipage}{.5\textwidth}
+	\begin{minipage}{.4\textwidth}
 		\centering
 		\includegraphics[width=.9\linewidth]{incercari.png}
 		\captionof{figure}{Raspunsul celui mai performant sistem din incercari}
 		\label{fig:test2}
-	\end{minipage}%
+	\end{minipage}
 	\begin{minipage}{.5\textwidth}
 		\centering
-		\includegraphics[width=1.4\linewidth]{sim_incercari.png}
+		\includegraphics[width=1\linewidth]{sim_incercari.png}
 		\captionof{figure}{Model PID folosit pentru incercari}
 		\label{fig:test2}
 	\end{minipage}
@@ -187,10 +187,9 @@ După ulterioare încercari de a modifica coeficienții regulatorului s-au obți
 		\hline
 		Impus&0&1&3&-&-&-\\
 		\hline
-		Obtinut&0&0.06&5.7&7&0.7&6\\
-		Obtinut&0&0.19&4.3&7.3&0.65&5\\
-		Obtinut&0&0.09&4.25&7.4&0.63&5\\
-		Obtinut&0&4.63&10.04&3.78&10&\\
+		Obtinut&0&0.06&3.89&7&10&0.8\\
+		Obtinut&0&0.19&3.3&7.3&11&0.7\\
+		Obtinut&0&0.09&3.2&7.4&11.6&0.67\\
 		\hline
 	\end{tabular}
 \end{center}
