@@ -4,19 +4,19 @@
 \usepackage{graphicx}
 \usepackage{fancyhdr}
 \usepackage{geometry}
-\usepackage{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage{enumitem}
 \usepackage{amsmath} 
 \usepackage{multirow}
 \usepackage{caption}
 \usepackage{float}
 \usepackage{fontspec}
+\usepackage{cite}
 %\setmainfont{UT Sans}
 \usepackage{geometry}
 
 
 \geometry{a4paper,left=20mm,right=20mm,total={160mm,220mm}}
-\inputencoding{utf8}
 \pagestyle{fancy}
 \thispagestyle{plain}
 \fancyheadoffset{0cm}
@@ -145,7 +145,7 @@ Din rezolvare rezultă un regulator PI care are un zero ce compensează constant
 	\end{minipage}
 \end{figure}
 \begin{center}
-	\captionof{table}{Performanțe}
+	\captionof{table}{Performanțe folosind varianta Kessler}
 	\begin{tabular}{|c|c|c|c|c|c|c|}
 		\hline
 		&$e_{st}$&$M_v$&$t_s$&$K_r$&$T_i$\\
@@ -156,78 +156,276 @@ Din rezolvare rezultă un regulator PI care are un zero ce compensează constant
 		\hline
 	\end{tabular}
 \end{center}
-Avand in vedere lucrarea experimentala 2 unde s-au observat efectele modificarii parametrilor regulatorului asupra indicatorilor de calitate, s-a incercat atingerea performantelor impuse prin incercari.
-Pentru implementarea cu incercari s-a pornit de la urmatoarea forma a regulatorului PID prezenta in lucrarea 6:
+Având în vedere lucrarea experimentală 2 unde s-au observat efectele modificarii parametrilor regulatorului asupra indicatorilor de calitate, s-a incercat atingerea performantelor impuse prin incercari.
+Pentru implementarea prin încercari s-a pornit de la urmatoarea formă a regulatorului PID prezentă în lucrarea 6:
 \begin{equation} 
 G_r(s)=k_r(1+\frac{1}{T_i}+\frac{sT_d}{sT_f+1})
 \end{equation}
-Folosind modelul simulink din Fig.3.
-După ulterioare încercari de a modifica coeficienții regulatorului s-au obținut performanțele din Tab. 3 si Fig.3:
+Folosind modelul Simulink din Fig.3.
+După ulterioare încercări de a modifica coeficienții regulatorului s-au obținut performanțele din Tab. 3 si Fig.3:
 \EqRow
 \begin{figure}[H]
 	\centering
 	\begin{minipage}{.4\textwidth}
 		\centering
-		\includegraphics[width=.9\linewidth]{incercari.png}
-		\captionof{figure}{Raspunsul celui mai performant sistem din incercari}
+		\includegraphics[width=1\linewidth]{incercari.png}
+		\captionof{figure}{Răspunsul celui mai performant sistem din încercări}
 		\label{fig:test2}
 	\end{minipage}
 	\begin{minipage}{.5\textwidth}
 		\centering
 		\includegraphics[width=1\linewidth]{sim_incercari.png}
-		\captionof{figure}{Model PID folosit pentru incercari}
+		\captionof{figure}{Model PID folosit pentru încercări}
 		\label{fig:test2}
 	\end{minipage}
 \end{figure}
 \begin{center}
-	\captionof{table}{Incercari experimentale}
+	\captionof{table}{Încercări experimentale}
 	\begin{tabular}{|c|c|c|c|c|c|c|c|}
 		\hline
 		&$e_{st}$&$M_v$&$t_s$&$K_r$&$T_i$&$T_d$\\
 		\hline
 		Impus&0&1&3&-&-&-\\
 		\hline
-		Obtinut&0&0.06&3.89&7&10&0.8\\
-		Obtinut&0&0.19&3.3&7.3&11&0.7\\
-		Obtinut&0&0.09&3.2&7.4&11.6&0.67\\
+		Obținut&0&0.06&3.89&7&10&0.8\\
+		Obținut&0&0.19&3.3&7.3&11&0.7\\
+		Obținut&0&0.09&3.2&7.4&11.6&0.67\\
 		\hline
 	\end{tabular}
 \end{center}
 \newpage
 \subsection{Metode experimentale de proiectare a regulatoarelor PID: metoda Ziegler-Nichols}
-Pentru a aplica metoda experimentala este nevoie ca prima oara sa se inregistreze valoarea raspunsului sistemului in bucla deschisa la marimea de intrare treapta unitara.\\
+Pentru a aplica metoda experimentală este nevoie ca prima oară să se înregistreze valoarea răspunsului sistemului in buclă deschisă la mărimea de intrare treaptă unitară.\\
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=.35\linewidth]{zn_desc.png}
-	\captionof{figure}{Raspunsul sistemului in bucla deschisa}
+	\captionof{figure}{Răspunsul sistemului în buclă deschisă}
 	\label{fig:test2}
 \end{figure}
-Avand aceste date putem calcula derivata de ordinul I. In continuare se va calcula punctul de maxim al derivatei de ordinul I si se va verifica in datele derivatei de ordinul II daca punctul de maxim indeplineste conditiile de a fi punct de inflexiune.
-O data gasit acest punct de inflexiune se va trasa tangenta la graficul raspunsului sistemului prin punctul de inflexiune. Se gasesc punctele de intersectie cu axele $x$ si $y$. \\
+Având aceste date putem calcula derivata de ordinul I. În continuare se va calcula punctul de maxim al derivatei de ordinul I si se va verifica în datele derivatei de ordinul II dacă punctul de maxim îndeplinește condițiile de a fi punct de inflexiune.
+O dată găsit acest punct de inflexiune se va trasa tangenta la graficul răspunsului sistemului prin punctul de inflexiune. Se găsesc punctele de intersecție cu axele $x$ și $y$. \\
 \begin{figure}[H]
 	\centering
 	\begin{minipage}{.5\textwidth}
 		\centering
 		\includegraphics[width=.9\linewidth]{zn_pr.png}
-		\captionof{figure}{Răspunsul sistemului si derivatele de ordin I si II}
+		\captionof{figure}{Răspunsul sistemului și derivatele de ordin I și II}
 		\label{fig:test1}
 	\end{minipage}%
-	\begin{minipage}{.5\textwidth}
+	\begin{minipage}{.6\textwidth}
 		\centering
 		\includegraphics[width=.9\linewidth]{zn_pct.png}
 		\captionof{figure}{Puncte necesare pentru proiectare}
 		\label{fig:test2}
 	\end{minipage}
 \end{figure}
-Aceste puncte de intersectie semnifica valorile $a$ si $L$ din algoritmul metodei experimentale care se vor folosi pentru a obtine valorile estimate ale coeficientilor regulatorului dupa cum urmeaza: 
-\subsection{Proiectarea unui sistem de reglare după stare}
-%Random citation \cite{DUMMY:1} embedded in text.
+Aceste puncte de intersecție semnifică valorile $a$ și $L$ din algoritmul metodei experimentale care se vor folosi pentru a obține valorile estimate ale coeficienților regulatorului după cum urmează: 
 \newpage
+\begin{center}
+	\captionof{table}{Formule prezente în curs pentru metoda Ziegler-Nichols}
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		Regulator&$K_{r}$&$T_i$&$T_d$&$T_0$\\
+		\hline
+		P&$1/a$&-&-&$4L$\\
+		\hline
+		PI&$0.9/a$&$3L$&-&$5.7L$\\
+		\hline
+		PID&$1.2/a$&$2L$&$L/2$&$3.4L$\\
+		\hline
+	\end{tabular}
+\end{center}
+Valorile parametrilor $a$ și $L$ sunt:\\
+$a=0.08\\
+L=1.925$\\
+La implementarea regulatorului se observă următoarele performanțe:
+\begin{center}
+	\captionof{table}{Performanțele folosind regulatorul proiectat prin metoda Ziegler-Nichols}
+	\begin{tabular}{|c|c|c|c|c|c|c|}
+		\hline
+		&$e_{st}$&$M_v$&$t_s$&$K_r$&$T_i$&$T_d$\\
+		\hline
+		Impus&0&1&3&-&-&-\\
+		\hline
+		Obținut P&7&40&13&12.45&-&-\\
+		\hline
+		Obținut PI&0&50&16.05&11.2&5.77&-\\
+		\hline
+		Obținut PID&0&10&8.5&14.9&3.85&0.96\\
+		\hline
+	\end{tabular}
+\end{center}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.55\linewidth]{ZN.png}
+	\captionof{figure}{Răspunsul sistemului folosind regulatorul PID proiectat prin metoda Ziegler-Nichols}
+	\label{fig:test2}
+\end{figure}
+\newpage
+\subsection{Proiectarea unui sistem de reglare după stare}
+Proiectarea regulatorului după stare folosește metoda plasării polilor. Pentru ca această metodă să poată fi
+folosită, sistemul trebuie să fie controlabil și observabil.
+Considerăm sistemul de reglare modelat la stare conform ecuației matriceale:\\
+\begin{align}
+\dot{x}(t)&=Ax(t)+Bu(t)\\
+y(t)&=Cx(t)
+\end{align}
+Unde $x(t)$ este vectorul n-dimensional de stare, $u(t)$ constituie semnalul de comandă (intrare), care este un
+scalar, $A$ este marticea de stare de dimensiune $n \times n$ cu coeficienți constanți, $B$ reprezintă vectorul de intrare
+cu dimensiunea $n \times 1$, iar $C$ este matricea de ieșire.
+Pentru că sistemul curent modelat nu are integrator, se va folosi reglarea combinată la stare cu regulator de
+eroare de tip I.
+Sistemul are funcționarea descrisă de ecuațiile (6) și (7), și
+\begin{align}
+u(t)&=-Kx(t)+k_{i}z(t)\\
+\dot{z}(t)&=r(t)-y(t)=r(t)-Cx(t)
+\end{align}
+Metoda presupune aflarea matricei $K=(k_1 k_2 ... k_n)$, pentru un set de poli aleși
+$-\mu_1, -\mu_2, ..., -\mu_n$. Polinomul caracteristic dorit, care realizează performanțele impuse, este:
+\begin{equation}
+c(s)=(s+\mu_1)(s+\mu_2)(s+\mu_3) ... (s+\mu_n)=s^n+\alpha_1s^{n-1}+\alpha_2s^{n-2}+...+\alpha_n
+\end{equation}
+Pe de altă parte, polinomul caracteristic al sistemului cu reacție la stare este:
+\begin{equation}
+c(s)=\det[sI-A+BK]=s^n+\beta_1s^{n-1}+\beta_2s^{n-2}+...+\beta_n
+\end{equation}
+Pentru identificarea valorilor matricei K se face corespondeța între coeficienții celor două polinoame:
+\begin{align}
+\alpha_1&=\beta_1\notag\\
+\alpha_2&=\beta_2\notag\\
+&...\notag\\
+\alpha_n&=\beta_n\notag
+\end{align}
+Sistemul curent are matricile:
+\[A=
+\begin{bmatrix}
+-3.52       & -3.2 & -0.28\\
+1       & 0 & 0\\
+0      & 1 & 0\\
+\end{bmatrix},
+B=
+\begin{bmatrix}
+1 \\ 
+0 \\
+0 \\
+\end{bmatrix},
+C=\begin{bmatrix}
+0  &0&0.31      \\
+\end{bmatrix}
+\]
+Înainte de a determina matricea K, trebuie să se verifice dacă sistemul este controlabil și observabil.\\
+Controlabilitatea se referă la posibilitatea de a ghida sistemul dintr-o stare inițială $x$ spre origine, într-un timp finit, prin intermediul unei intrări bine definite, $u$.
+Pentru ca sistemul să fie controlabil trebuie ca rangul matricei de controlabilitate să fie egal cu ordinul sistemului, în cazul nostru 3. Această proprietate este îndeplinită dacă determinatul acestei matrici este diferit de 0.
+Matricea de controlabilitate este definită, în cazul general al unui sistem de ordin $n$, în ecuația (12).
+
+\begin{equation}
+	P=\begin{bmatrix}
+	B      & AB & A^2B& \dots&A^nB
+	\end{bmatrix}	
+\end{equation}
+
+Matricea de controlabilitate a sistemului curent este:
+\begin{align}
+P=\begin{bmatrix}
+	1       & -3.52 & 9.25\notag\\
+	0       & 1 & -3.52\notag\\
+	0      & 0 & 1\notag
+\end{bmatrix}
+\end{align}
+Determinatul matricei este $\det(P) = 1$, diferit de 0, deci sistemul este controlabil.\\
+\\
+Un sistem este observabil dacă vectorul de stare $x$ poate fi complet determinat pe baza vectorului $y$ și a vectorului de intrare $u$.
+Sistemul este observabil dacă rangul matricei de observabilitate este egal cu ordinul sistemului.
+Matricea de observabilitate este definită, pentru cazul general al unui sistem de ordin $n$, în ecuația (13):
+\begin{align}
+Q=
+\begin{bmatrix}
+C \\ 
+C\ast A \\
+C\ast A^2 \\
+\vdots\\
+C\ast A^n\\
+\end{bmatrix}
+\end{align}
+Matricea de observabilitate a sistemului curent este:
+\begin{align}
+Q=\begin{bmatrix}
+0       & 0 & 0.31\notag\\
+0       & 0.31 & 0\notag\\
+0.31      & 0 & 0\notag
+\end{bmatrix}
+\end{align}
+Determinatul matricei este $\det(Q) =-0.03$, diferit de 0, deci sistemul este observabil.
+Rezultă că se poate realiza un regulator după stare pentru acest sistem.\\\\
+Pentru că sistemul este de ordinul 3, se va folosi ecuația caracteristică a sistemului de ordin 2 pentru a obține
+cei 2 poli conjungați, iar al 3-lea pol se va alege în așa fel încât să aibe cât mai puțină influență asupra primilor
+2, adică cât mai depărtat de aceștia.
+\begin{equation}
+G(s)=\frac{\omega_{n}^2}{s^2+2\zeta\omega_ns+\omega_{n}^2}
+\end{equation}
+Conform criteriilor de performanță a sistemului de ordin 2 pentru bandă de 2\%, și $\omega_{n}$ se pot obține după formulele (15) și (16).
+
+\begin{align}
+\zeta&=-\frac{\ln(\frac{M_v}{100})}{\sqrt{\pi^2+\ln(\frac{M_v}{100})}}\\
+\notag\\
+\omega&=\frac{5}{\zeta\ast t_s}
+\end{align}
+\\
+Polii sistemului de ordin 2 sunt calculați folosind formula (17).
+\begin{equation}
+s_{1,2}=-\zeta\omega_{n}\pm\omega_{n}\sqrt{\zeta^2-1}
+\end{equation}
+
+Experimental, s-a ales $M_v=4.05\%$ și $t_s=6.75$ pentru obținerea polilor sistemului de ordin 2. Polii sunt destul de apropiați de 0, deci cel de-al 3-lea pol a fost ales cât mai departe de aceștia. Cei 3 poli sunt:
+\begin{center}
+	$-\mu_1=-0.7407+0.725i,-\mu_2=-0.7407-0.725i,-\mu_3=-1000$
+\end{center}
+S-a obținut matricea pentru sistemul de reglare:
+\begin{align}
+K=
+\begin{bmatrix}
+997.95& 1479.4&1075.1 \notag
+\end{bmatrix}
+\end{align}
+
+Pentru reglarea sistemului s-a realizat schema din fig. 9 în programul Simulink.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{stare.png}
+	\captionof{figure}{Schema Simulink pentru regulatorul de stare}
+	\label{fig:test2}
+\end{figure}
+
+Performanțele sistemului de reglare sunt destul de bune, deși pentru obținerea acestora a fost nevoie de mai multe încercări de determinare a polilor sistemului de ordin 2. Deși $M_v$ și $t_s$ 
+pentru sistemul de ordinul 2 au valori mai mari decât cele impuse în cerința proiectului, s-a încercat atingerea criteriilor de performanță impuse deoarece cu valorile impuse răspunsul prezenta $t_s=30$. Valorile celui mai bun sistem de regalre dupa stare poate fi observat  în tabelul 6 și figura 10.
+\begin{center}
+	\captionof{table}{Performanțele folosind regulatorul de stare}
+	\begin{tabular}{|c|c|c|c|c|c|c|}
+		\hline
+		&$e_{st}$&$M_v$&$t_s$\\
+		\hline
+		Impus&0&1&3\\
+		\hline
+		Obținut&0&1&7.7\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.55\linewidth]{rasp_stare.png}
+	\captionof{figure}{Răspunsul sistemului pentru regulatorul de stare}
+	\label{fig:test2}
+\end{figure}
+\newpage
+
 
 \section{Concluzii}
 
 \newpage
-\bibliography{bibliografie}
+
+\nocite{*}
 \bibliographystyle{ieeetr}
+\bibliography{bibliografie}
 
 \end{document}
