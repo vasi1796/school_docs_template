@@ -12,9 +12,26 @@
 \usepackage{float}
 \usepackage{fontspec}
 \usepackage{cite}
+\usepackage{listings}
 %\setmainfont{UT Sans}
 \usepackage{geometry}
+\usepackage{xcolor}
 
+\lstdefinestyle{customc}{
+	belowcaptionskip=1\baselineskip,
+	breaklines=true,
+	frame=L,
+	xleftmargin=\parindent,
+	language=C,
+	showstringspaces=false,
+	basicstyle=\large\ttfamily,
+	keywordstyle=\bfseries\color{green!40!black},
+	commentstyle=\itshape\color{purple!40!black},
+	identifierstyle=\color{blue},
+	stringstyle=\color{orange},
+}
+
+\lstset{escapechar=@,style=customc}
 
 \geometry{a4paper,left=20mm,right=20mm,total={160mm,220mm}}
 \pagestyle{fancy}
@@ -99,7 +116,7 @@ Detalii privind cerințele:
 \section{Indicații și recomandări}
 \begin{enumerate}[label=\alph*)]
 	\item Pentru proiectarea prin metode analitice (de cvasi-optim), la determinarea prin calcul a parametrilor regulatorului se vor considera modele simplificate ale procesului dat. Simplificările trebuie să fie argumentate. La simulări însă, se va utiliza funcția de transfer dată inițial.
-	\item Pentru metoda experimentală, este necesară a procesare cât mai precisă a răspunsului procesului în circuit deschis la semnal de intrare de tip treaptă. Pentru acest lucru este indicat să se realizeze un program Matlab.
+	\item Pentru metoda experimentală, este necesară o procesare cât mai precisă a răspunsului procesului în circuit deschis la semnal de intrare de tip treaptă. Pentru acest lucru este indicat să se realizeze un program Matlab.
 	\item Pentru proiectarea unui sistem de reglare după stare, se va determina inițial modelul în spațiul stărilor. Apoi se va evalua controlabilitatea și observabilitatea modelului obținut.
 	\item La determinarea ecuațiilor cu diferențe, valoarea aleasă a perioadei de eșantionare se va argumenta.
 \end{enumerate}
@@ -159,7 +176,7 @@ Din rezolvare rezultă un regulator PI care are un zero ce compensează constant
 Având în vedere lucrarea experimentală 2 unde s-au observat efectele modificarii parametrilor regulatorului asupra indicatorilor de calitate, s-a incercat atingerea performantelor impuse prin incercari.
 Pentru implementarea prin încercari s-a pornit de la urmatoarea formă a regulatorului PID prezentă în lucrarea 6:
 \begin{equation} 
-G_r(s)=k_r(1+\frac{1}{T_i}+\frac{sT_d}{sT_f+1})
+G_r(s)=k_r(1+\frac{1}{sT_i}+\frac{sT_d}{sT_f+1})
 \end{equation}
 Folosind modelul Simulink din Fig.3.
 După ulterioare încercări de a modifica coeficienții regulatorului s-au obținut performanțele din Tab. 3 si Fig.3:
@@ -193,6 +210,80 @@ După ulterioare încercări de a modifica coeficienții regulatorului s-au obț
 		\hline
 	\end{tabular}
 \end{center}
+\EqRow
+Pentru implementarea numerică a unui regulator trebuie determinată ecuația cu diferențe a acestuia.
+Se pornește pentru prima implementare de la funcția de transfer a regulatorului PI obținut prin varianta Kessler:
+$$G_r(s)=\cfrac{10s+1}{2.64s}\EqRow$$
+Se obține $G(z^{-1})$ făcând substituția:
+$$s=\frac{1-z^{-1}}{T_e}\EqRow$$
+
+Unde $T_e$ reprezintă timpul de eșantionare. Acesta trebuie ales conform regulii lui Shannon: de 2 ori mai mic decât cea mai mică constantă de timp din funcția de transfer a procesului, în acest caz a regulatorului. De obicei se alege de până la 10 ori mai mică.\\
+Considerând $T_e=0.1$, se obține:
+$$G_r(z^{-1})=\frac{3.78z^{-1}-3.81}{z^{-1}-1}$$
+Se aduce funcția la forma $G(q^{-1})$, unde $q^{-1}$ reprezintă operatorul de întârziere cu o unitate de timp $T_e$.
+Pentru asta, se face substituția $z^{-1}=q^{-1}$.
+$$G_r(q^{-1})=\frac{3.78q^{-1}-3.81}{q^{-1}-1}=\frac{u[k]}{e[k]}$$
+Făcând înmulțirile pe diagonală, se obține:
+$$q^{-1}u[k]-u[k]=3.78q^{-1}e[k]-3.81e[k]$$
+Operatorul de întârziere este definit astfel: $q^{-n}y[k]=y[k-n]$. Folosind această proprietate obținem ecuația cu diferente a regulatorului:
+$$u[k]=-3.78e[k-1]+3.81e[k]+u[k-1]$$
+
+Pentru că răspunsul regulatorului PID cu parametrii obținuți prin încercări respectă performanțele impuse, pe lângă determinarea ecuațiilor cu diferențe pentru regulator, vom realiza și o implementare pentru un microcontroller.
+Ecuația cu diferențe se obține aplicând aceeași metodă ca cea folosită anterior.
+\begin{align}
+G_r(s)&=\cfrac{58.31s^2+85.914s+7.4}{0.116s^2+11.6s}\notag\\
+\notag\\
+G_r(z^{-1})&=\cfrac{45.66z^{-2}+98.1z^{-1}+52.49}{0.09z^{-2}-1.09z^{-1}+1}\notag\\
+\notag\\
+G_r(q^{-1})&=\cfrac{45.66q^{-2}+98.1q^{-1}+52.49}{0.09q^{-2}-1.09q^{-1}+1}=\frac{u[k]}{e[k]}\notag
+\end{align}
+\begin{align}
+0.09q^{-2}u[k]-1.09q^{-1}u[k]+u[k]=45.66q^{-2}e[k]+98.1q^{-1}e[k]+52.49e[k]\notag\\
+\notag\\
+u[k]=45.66e[k-2]+98.1e[k-1]+52.49e[k]-0.09u[k-2]+1.09u[k-1]\notag
+\end{align}
+\newpage
+\begin{lstlisting}
+float r = 1.f;
+
+const int k = 2;
+float last_u[k]={0,0,0};
+float last_e[k]={0,0,0};
+
+float update()
+{
+	//e[k]
+	const float e = r - y;
+	
+	//u[k]=45.66e[k-2]+98.1e[k-1]+52.49e[k]-0.09u[k-2]+1.09u[k-1]
+	const float u = 45.66f * last_e[k-2] + 98.1f * 
+	last_e[k-1] + 52.49 * e - 0.09 * last_u[k-2] + 1.09 * last_u[k-1];
+	
+	for(int index = 1;index<k;index++)
+	{
+		last_u[index-1]=last_u[index];
+		last_e[index-1]=last_e[index];
+	}
+	last_u[k-1]=u;
+	last_e[k-1]=e;
+	return u;
+}
+
+//intrerupere timer
+ISR (TIMERx_OVF_vect)
+{
+	//citeste marimea de iesire
+	//const float y = read();
+	
+	//trimite comanda
+	//write(,update(y))
+}
+void setup()
+{
+	//setare timer cu intrerupere la t_e = 0.1
+}
+\end{lstlisting}
+
 \newpage
 \subsection{Metode experimentale de proiectare a regulatoarelor PID: metoda Ziegler-Nichols}
 Pentru a aplica metoda experimentală este nevoie ca prima oară să se înregistreze valoarea răspunsului sistemului in buclă deschisă la mărimea de intrare treaptă unitară.\\
@@ -406,7 +497,7 @@ pentru sistemul de ordinul 2 au valori mai mari decât cele impuse în cerința 
 		\hline
 		Impus&0&1&3\\
 		\hline
-		Obținut&0&1&7.7\\
+		Obținut&0&1&6.7\\
 		\hline
 	\end{tabular}
 \end{center}
@@ -417,11 +508,13 @@ pentru sistemul de ordinul 2 au valori mai mari decât cele impuse în cerința 
 	\captionof{figure}{Răspunsul sistemului pentru regulatorul de stare}
 	\label{fig:test2}
 \end{figure}
-\newpage
 
 
 \section{Concluzii}
-
+Din punct de vedere al ușurinței de proiectare criteriul modului varianta Kessler este cel mai accesibil algoritm. Însă performanțele obținute cu acest regulator nu au îndeplinit cerința timpului de stabilire de 3 secunde sau cea a suprareglajului de 4.56\%. Din acest motiv s-a pornit de la regulatorul PI obținut prin varianta Kessler, s-a adăugat o componentă derivativă pentru a micșora suprareglajul, s-a modificat de asemenea și $T_i$ pentru a reduce timpul de stabilire și s-a ajuns la o performanță foarte apropiată de cea impusă, timpul de stabilire fiind mai lung cu 0.2 secunde.\\
+Datorită îndeplinirii criteriilor de performanță, regulatorul obținut prin încercări are și implementare în limbajul C, deși algoritmul propus poate fi aplicat foarte ușor pentru orice ecuație cu diferențe, fiind generic.\\
+Pentru metoda experimentală Ziegler-Nichols s-au obținut cele mai slabe performanțe iar metoda de proiectare este relativ dificilă dacă nu avem instrumentele adecvate pentru a determina panta și  pentru a găsi punctul de inflexiune din datele achiziționate. Odată obținute însă valorile $\alpha$ și $L$ se pot încerca diferite tipuri de regulatoare având de făcut niște substituții simple.\\
+Regulatorul proiectat după stare a fost cel mai ușor de implementat și testat cu programul Matlab. Singurul impediment este constituit de alegerea polilor conjugați și găsirea unei metode algoritmice de a-i găsi. Metoda aplicată în acest proiect se folosește de forma generală a unui sistem de gradul II și indicatorii de calitate la mărimea de intrare treaptă unitară.  
 \newpage
 
 \nocite{*}
