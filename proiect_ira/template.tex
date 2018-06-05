@@ -129,7 +129,7 @@ Se consideră funcția de transfer:
 G_p(s)=\frac{1.1}{(0.7s+1)(0.5s+1)(10s+1)}
 \EqRow
 \end{equation}
-Se poate obseva că funcția de transfer a procesului nu are zerouri și are o  constantă de timp mare si două constant de timp mici, ce pot fi compensate. Pentru proiectarea regulatorului vom folosi criteriul modulului varianta Kessler. Varianta Kessler permite ca toate constantele de timp mici sa se înlocuiesca cu o singură constantă de timp obținută din suma acestora notată cu $T_{\Sigma}=T_{p1}+T_{p2}$.
+Se poate obseva că funcția de transfer a procesului nu are zerouri și are o  constantă de timp mare și două constante de timp mici, ce pot fi compensate. Pentru proiectarea regulatorului vom folosi criteriul modulului varianta Kessler. Varianta Kessler permite ca toate constantele de timp mici să fie înlocuite cu o singură constantă de timp obținută din suma acestora notată cu $T_{\Sigma}=T_{p1}+T_{p2}$.
 Forma funcției de transfer în buclă deschisă pentru metoda Kessler este:
 \vfill
 \begin{equation} 
@@ -140,12 +140,12 @@ G_d^{CMVK}(s)=\frac{1}{2sT_{\Sigma}(sT_{\Sigma}+1)}
 G_d^{CMVK}(s)=G_R(s)G_p(s)
 \EqRow
 \end{equation}
-Pentru rezolvarea prin metoda Kessler calculele se vor efectua utilizând forma simplificată a procesului. În simulare însa se va folosi forma originală a procesului. Rezolvarea ecuațiilor și aflarea funcției de transfer a regulatorului este:
+Pentru rezolvarea prin metoda Kessler calculele se vor efectua utilizând forma simplificată a procesului. În simulare însă se va folosi forma originală a procesului. Rezolvarea ecuațiilor și aflarea funcției de transfer a regulatorului este:
 \vfill
 $$T_{\Sigma}=0.7+0.5=1.2$$
 \vfill
 $$G_R(s)=\cfrac{G_d^{CMVK}(s)}{G_p(s)}=\cfrac{\cfrac{1}{2.4s(1.2s+1)}}{\cfrac{1.1}{(1.2s+1)(10s+1)}}=\cfrac{10s+1}{2.64s}=\cfrac{10}{2.64}\cfrac{10s+1}{10s}=3.78(1+\cfrac{1}{10s})\EqRow$$
-Din rezolvare rezultă un regulator PI care are un zero ce compensează constanta de timp mare a procesului. De asemenea conține si componentă integrativă care asigură $e_{st}=0$. Funcția de transfer respectă condiția de realizabilitate fizică. Performanțele sistemului și identificarea coeficienților se pot observa în tabelul 2, Fig.1 și Fig.2.:
+Din rezolvare rezultă un regulator PI care are un zero ce compensează constanta de timp mare a procesului. De asemenea conține și componentă integrativă care asigură $e_{st}=0$. Funcția de transfer respectă condiția de realizabilitate fizică. Performanțele sistemului și identificarea coeficienților se pot observa în tabelul 2, Fig.1 și Fig.2.:
 \begin{figure}[H]
 	\centering
 	\begin{minipage}{.4\textwidth}
@@ -173,8 +173,8 @@ Din rezolvare rezultă un regulator PI care are un zero ce compensează constant
 		\hline
 	\end{tabular}
 \end{center}
-Având în vedere lucrarea experimentală 2 unde s-au observat efectele modificarii parametrilor regulatorului asupra indicatorilor de calitate, s-a incercat atingerea performantelor impuse prin incercari.
-Pentru implementarea prin încercari s-a pornit de la urmatoarea formă a regulatorului PID prezentă în lucrarea 6:
+Având în vedere lucrarea experimentală 2 unde s-au observat efectele modificării parametrilor regulatorului asupra indicatorilor de calitate, s-a încercat atingerea performanțelor impuse prin încercări.
+Pentru implementarea prin încercări s-a pornit de la următoarea formă a regulatorului PID prezentă în lucrarea 6:
 \begin{equation} 
 G_r(s)=k_r(1+\frac{1}{sT_i}+\frac{sT_d}{sT_f+1})
 \end{equation}
@@ -356,7 +356,7 @@ La implementarea regulatorului se observă următoarele performanțe:
 \subsection{Proiectarea unui sistem de reglare după stare}
 Proiectarea regulatorului după stare folosește metoda plasării polilor. Pentru ca această metodă să poată fi
 folosită, sistemul trebuie să fie controlabil și observabil.
-Considerăm sistemul de reglare modelat la stare conform ecuației matriceale:\\
+Considerăm sistemul de reglare modelat la stare conform ecuației matriceale:
 \begin{align}
 \dot{x}(t)&=Ax(t)+Bu(t)\\
 y(t)&=Cx(t)
@@ -364,6 +364,24 @@ y(t)&=Cx(t)
 Unde $x(t)$ este vectorul n-dimensional de stare, $u(t)$ constituie semnalul de comandă (intrare), care este un
 scalar, $A$ este marticea de stare de dimensiune $n \times n$ cu coeficienți constanți, $B$ reprezintă vectorul de intrare
 cu dimensiunea $n \times 1$, iar $C$ este matricea de ieșire.
+Pentru transformarea în spațiul stărilor s-a folosit funcția din Matlab $tf2ss$. \\
+Sistemul curent are matricile:
+\[A=
+\begin{bmatrix}
+-3.52       & -3.2 & -0.28\\
+1       & 0 & 0\\
+0      & 1 & 0\\
+\end{bmatrix},
+B=
+\begin{bmatrix}
+1 \\ 
+0 \\
+0 \\
+\end{bmatrix},
+C=\begin{bmatrix}
+0  &0&0.31      \\
+\end{bmatrix}
+\]
 Pentru că sistemul curent modelat nu are integrator, se va folosi reglarea combinată la stare cu regulator de
 eroare de tip I.
 Sistemul are funcționarea descrisă de ecuațiile (6) și (7), și
@@ -384,26 +402,10 @@ Pentru identificarea valorilor matricei K se face corespondeța între coeficien
 \begin{align}
 \alpha_1&=\beta_1\notag\\
 \alpha_2&=\beta_2\notag\\
-&...\notag\\
+&\vdots\notag\\
 \alpha_n&=\beta_n\notag
 \end{align}
-Sistemul curent are matricile:
-\[A=
-\begin{bmatrix}
--3.52       & -3.2 & -0.28\\
-1       & 0 & 0\\
-0      & 1 & 0\\
-\end{bmatrix},
-B=
-\begin{bmatrix}
-1 \\ 
-0 \\
-0 \\
-\end{bmatrix},
-C=\begin{bmatrix}
-0  &0&0.31      \\
-\end{bmatrix}
-\]
+
 Înainte de a determina matricea K, trebuie să se verifice dacă sistemul este controlabil și observabil.\\
 Controlabilitatea se referă la posibilitatea de a ghida sistemul dintr-o stare inițială $x$ spre origine, într-un timp finit, prin intermediul unei intrări bine definite, $u$.
 Pentru ca sistemul să fie controlabil trebuie ca rangul matricei de controlabilitate să fie egal cu ordinul sistemului, în cazul nostru 3. Această proprietate este îndeplinită dacă determinatul acestei matrici este diferit de 0.
@@ -456,12 +458,13 @@ G(s)=\frac{\omega_{n}^2}{s^2+2\zeta\omega_ns+\omega_{n}^2}
 \end{equation}
 Conform criteriilor de performanță a sistemului de ordin 2 pentru bandă de 2\%, și $\omega_{n}$ se pot obține după formulele (15) și (16).
 
-\begin{align}
-\zeta&=-\frac{\ln(\frac{M_v}{100})}{\sqrt{\pi^2+\ln(\frac{M_v}{100})}}\\
-\notag\\
-\omega&=\frac{5}{\zeta\ast t_s}
-\end{align}
-\\
+\begin{equation}
+\zeta=-\frac{\ln(\frac{M_v}{100})}{\sqrt{\pi^2+\ln(\frac{M_v}{100})}}
+\end{equation}
+
+\begin{equation}
+\omega_n=\frac{5}{\zeta\ast t_s}
+\end{equation}
 Polii sistemului de ordin 2 sunt calculați folosind formula (17).
 \begin{equation}
 s_{1,2}=-\zeta\omega_{n}\pm\omega_{n}\sqrt{\zeta^2-1}
@@ -479,7 +482,7 @@ K=
 \end{bmatrix}
 \end{align}
 
-Pentru reglarea sistemului s-a realizat schema din fig. 9 în programul Simulink.
+Pentru reglarea sistemului s-a realizat schema din Fig. 9 în programul Simulink.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{stare.png}
@@ -488,7 +491,7 @@ Pentru reglarea sistemului s-a realizat schema din fig. 9 în programul Simulink
 \end{figure}
 
 Performanțele sistemului de reglare sunt destul de bune, deși pentru obținerea acestora a fost nevoie de mai multe încercări de determinare a polilor sistemului de ordin 2. Deși $M_v$ și $t_s$ 
-pentru sistemul de ordinul 2 au valori mai mari decât cele impuse în cerința proiectului, s-a încercat atingerea criteriilor de performanță impuse deoarece cu valorile impuse răspunsul prezenta $t_s=30$. Valorile celui mai bun sistem de regalre dupa stare poate fi observat  în tabelul 6 și figura 10.
+pentru sistemul de ordinul 2 au valori mai mari decât cele impuse în cerința proiectului, s-a încercat atingerea criteriilor de performanță impuse deoarece cu valorile impuse răspunsul prezenta $t_s=30$. Valorile celui mai bun sistem de regalre dupa stare poate fi observat  în Tab. 6 și Fig. 10.
 \begin{center}
 	\captionof{table}{Performanțele folosind regulatorul de stare}
 	\begin{tabular}{|c|c|c|c|c|c|c|}
