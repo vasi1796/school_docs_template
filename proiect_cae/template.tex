@@ -269,9 +269,94 @@ T_{mk}\frac{dn_{*}}{dt}=m_{*}-m_{s^*}
 \begin{align}
 i_{a^*}=m_*
 \end{align}
-Pe baza ecuatii lor de mai sus cu notatiile: Ea(s) = L{ea*}; N(s) = L{n*} rezulta schema bloc a motorului reprezentata in figura 9.
-\newpage
+Pe baza ecuatii lor de mai sus cu notatiile: $Ea(s) = L{ea*}; N(s) = L{n*}$ rezulta schema bloc a motorului reprezentata in figura 9.
+Utilizand calculul operational ecuatiile (9) ... (12) devin:
+\begin{align}
+I_a(s)(a+sT_a)=E_a(s)-E(s)
+\end{align}
+\begin{align}
+E(s)=N(s)
+\end{align}
+\begin{align}
+sT_{mk}N(s)=M(s)-M_s(s)
+\end{align}
+\begin{align}
+I_a(s)=M(s)
+\end{align}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.5\linewidth]{fig10.png}
+	\captionof{figure}{Schema in lant a motorului de curent continuu cu excitatie separata}
+	\label{fig:test2}
+\end{figure}
+Conform figurii 9 functiile de transfer pe parti sunt:
+\begin{align}
+\frac{I_a(s)}{E_a(s)}=\frac{\frac{1}{1+sT_a}}{1+\frac{1}{sT_a}+\frac{1}{sT_{mk}}}=\frac{sT_{mk}}{1+sT_{mk}+s^2T_aT_{mk}}
+\end{align}
+\begin{align}
+\frac{N(s)}{I_a(s)}=\frac{1}{sT_{mk}}
+\end{align}
+Din relatiile (13) ... (16) rezulta:
+\begin{align}
+X_i(s)=E_a(s)+\frac{M_s(s)}{sT_{mk}}=\frac{1+sT_{mk}+s^2T_aT_{mk}}{sT_{mk}}I_a(s)
+\end{align}
+Schema bloc in lant corespunzatoare ecuatiei (12) este reprezentata in figura 10. 
+Pe baza acestor rezultate, trecand din nou la reprezentarea prin functii tranzitorii, rezulta schema bloc a sistemului motor - element de executie (figura 11). In aceasta situatie reactia din bucla (figura 8) dispare. Se observa ca, cuplul de sarcina m.actioneaza in doua locuri. Marimile care nu au fost marcate nu au nici un sens fizic. Partea de reglare cuprinsa intre ea* si ia* (figura 12) poate fi descrisa prin functia de transfer: 
+\begin{center}
+$\frac{I_a(s)}{E_a(s)}=\frac{sT_{mk}}{1+sT_{mk}+s^2T_aT_{mk}}$
+\end{center}
+Trebuie observat ca efectul de diferentiere este urmarea compensarilor tensiunilor ea si e la mersul in got. Polinomul de la numitor poate prezenta poli reali sau complecsi conjugati.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.7\linewidth]{fig11.png}
+	\captionof{figure}{Schema in lant a motorului de c.c. cu excitatie separata pentru $M_s(s)\neq0$}
+	\label{fig:test2}
+\end{figure}
+Potrivit principiului reglarii in cascada, marimea care trebuie limitata este mentinuta sub control printr-un circuit de reglare interior. In. figura 11 este prezentata dispunerea acestui circuit. Valoarea reala a curentului este sesizata printr-un traductor si este supusa unei neteziri. In cele mai multe cazuri o constanta de timp $T_t$ de 5 ms este suficienta.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.9\linewidth]{fig12.png}
+	\captionof{figure}{Dispunerea circuitului de reglare a curentului la un sistem de actionare motor de c.c. cu excitatie separata - element de executie.}
+	\label{fig:test2}
+\end{figure}
+Daca se foloseste un redresor comandat ca element de executie, ca regulator al curentului este suficient un regulator PI. 
+Schemele de reglare a actionarilor electrice trebuie sa permita si pornirea automata a motorului. Pentru a alimenta cu curent constant un motor care porneste in gol - din cauza turatiei care creste liniar in timp - este necesara o tensiune crescatoare. Dar o asemenea marime de iesire variabila in timp pretinde la un regulator simplu integral o abatere de reglare. In cazurile practice nu deranjeaza faptul ca circuitul de reglare a curentului prezinta o eroare de reglare interior. 
 
+Dimensionarea regulatorului curentului se realizeaza conform procedeelor obisnuite din tehnica reglarii. Pentru acordarea optima a regulatorului curentului se utilizeaza varianta Kessler a criteriului modulului.
+
+Circuitul de reglare a curentului, astfel dimensionat, se introduce (figura 12) in circuitul supraordonat de reglare a turatiei; in ipoteza unei bune amortizari in circuitul de reglare a curentului sa se aproximeze printr-un element inertial de ordinul intai avand constanta de timp Ti si factorul de amplificare k, (figura 12).
+
+Constanta de timp $T_i$ va fi:
+\begin{align}
+T_i=2T_{\Sigma i}=2(T_{sa}+T_\gamma)
+\end{align}
+Iar factorul de amplificare:
+\begin{align}
+k_i=\frac{i_{a\max}}{U_{sat}}
+\end{align}
+Unde:
+\begin{enumerate}[label=$\bullet$]
+	\item $I_{a\max}$ - valoarea limita a curentului prin indus 
+	\item $U_{sat}$ - tensiunea de saturatie a regulatorului precedent (regulatorul turatiei) 
+\end{enumerate}
+Pentru circuitul de reglare a turatiei se ia de asemenea in considerare un regulator PI. Rezulta astfel functia de transfer a circuitului deschis (figura 12).
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.9\linewidth]{fig13.png}
+	\captionof{figure}{Dispunerea circuitului de reglare a turatiei la un sistem de actionare motor e.e. cu excitatie separata- element de executie}
+	\label{fig:test2}
+\end{figure}
+
+\begin{align}
+Y_n(s)\equiv k_Rn \frac{1+sT_{in}}{sT_{in}} \frac{k_i}{1+sT_i} \frac{1}{sT_{mk}}
+\end{align}
+
+Acordarea optima a regulatorului, adica determinarea parametrilor $k_{Rn}$ si $T_{in}$, se efectueaza conform criteriului simetriei. In figura 12 regulatorul turatie, este prevazut cu o reactie neliniara; aceasta impiedica cresterea valorii impuse a curentului Iai* peste valoarea limita Tia max*. In acest fel se protejeaza instalatia de alimentare impotriva supraincarcarii. 
+Limitarea valorii impuse a curentului permite de asemenea sa se dea o variatie oarecare valorii impuse a turatiei.
+
+\newpage
+\section{Breviar de calcul}
+\newpage
 \nocite{*}
 \bibliographystyle{ieeetr}
 \bibliography{bibliografie}
