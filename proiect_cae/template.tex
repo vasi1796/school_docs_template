@@ -463,7 +463,82 @@ Curentul motorului este masurat intr-un amplificator pentru traductoare de 10V/1
 Turatia se masoara cu ajutorul unui tahogenerator de curent continuu de 100V/1000rot/min.
 
 \subsection{Bucla de reglare a curentului}
+Din cele expuse anterior si cu datele de catalog ale motorului se poate calcula inductanta indusului, conform relatiei:
+\begin{align*}
+L_a=\frac{5.6U_N}{npI_n}=\frac{5.6\ast190}{2500\ast 1\ast 25.29}=16mH
+\end{align*}
+Constanta de timp a indusului se calculeaza cu formula:
+\begin{align*}
+T_r=\frac{L_r}{R_r}
+\end{align*}
+Unde:
+\begin{align*}
+L_r=L_a+L_b=16+38=54mH=0.054H
+\end{align*}
+\begin{align*}
+R_r=R_a+R_b=0.18+0.86=1.04\Omega
+\end{align*}
+Rezulta:
+\begin{align*}
+T_r=\frac{0.054}{1.04}=0.051s=51 ms
+\end{align*}
+Functia de transfer a motorului in bucla de reglare a curentului este:
+\begin{align*}
+H_{m1}(s)=\frac{I_a(s)}{U_a(s)}=\frac{1}{R_r}\frac{s T_m}{1+sT_m+s^2T_mT_r}
+\end{align*}
+Costanta de timp electromecanica a motorului $T_m $se calculeaza cu formula:
+\begin{align*}
+T_m=\frac{GD^2}{375}\frac{R_r}{(K_e\varphi)(K_m\varphi)}
+\end{align*}
+Unde:
+\begin{align*}
+K_e\varphi=\frac{U_a-R_aI_N}{n}=\frac{190-0.86\times 25.29}{2500}=0.067 \frac{V}{rot/min}
+\end{align*}
+\begin{align*}
+K_m\varphi=\frac{K_e\varphi}{1.03}=\frac{0.067}{1.03}=0.065 Kg\ast m/A
+\end{align*}
+Momentul de giratie raportat la arborele motorului este:
+\begin{align*}
+GD^2=GD_R^2+GD_s^2=4.9 Kg\ast m^2
+\end{align*}
+Rezulta:
+\begin{align*}
+T_m=\frac{4.9}{375}\frac{1.04}{0.067\times 0.065}=0.013\ast 238.8=3.104s
+\end{align*}
+\subsection{Puntea de tiristoare comandate}
+Indusul se alimenteaza de la un convertor trifazat reversibil (bidirectional) in puntecomplet comandat.
 
+Fiind folosita o punte trifazata de tiristoare, timpul mort al acesteia este in medie statica:
+\begin{align*}
+T_p=\frac{1}{2qf}
+\end{align*}
+unde q este numarul de pulsuri al conexiunii redresoare iar f este frecventa.
+Deci:
+\begin{align*}
+T_p=\frac{1}{2\times 6 \times 50}=1.67ms
+\end{align*}
+Factorul de amplificare maxim al puntii (la $\alpha = \ang{90}$) este:
+\begin{align*}
+k_p=\frac{\pi U_{d0}}{180}=\frac{194.55\times 3.14}{180}=3.392 V/grad
+\end{align*}
+Deci functia de transfer a puntii este:
+\begin{align*}
+H_p(s)=k_pe^{-sT_m}
+\end{align*}
+Elementul cu timp mort se inlocuieste cu un element de intarziere de ordin 1 cu functia de transfer:
+\begin{align*}
+H_p(s)=\frac{k_p}{1+sT_p}
+\end{align*}
+\subsection{Dispozitiviul de comanda pe grila}
+Dispozitivul de comanda pe grila este un element proportional avand factorul de amplificare cu valoarea:
+\begin{align*}
+k_{DCG}=\frac{\ang{180}}{16V}=11.25 grad/V
+\end{align*}
+A vand in vedere ca DCG este un element liniar neinertial functia sa de transfer este:
+\begin{align*}
+H_{DCG}(s)=11.25 grad/V
+\end{align*}
+\subsection{Circuitul de masurare a curentului}
 
 \newpage
 \nocite{*}
