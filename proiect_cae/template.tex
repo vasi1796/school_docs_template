@@ -6,6 +6,7 @@
 \usepackage{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage{enumitem}
+\usepackage{siunitx}
 \usepackage{amsmath} 
 \usepackage{multirow}
 \usepackage{caption}
@@ -356,6 +357,114 @@ Limitarea valorii impuse a curentului permite de asemenea sa se dea o variatie o
 
 \newpage
 \section{Breviar de calcul}
+Curentul nominal rotoric:
+
+\begin{align*} 
+ I_n=\frac{P_N}{n\times U_n}=\frac{3.7 \ast 10^3}{0.77 \times 190}=25.29A
+ \end{align*}
+ Curentul maxim: $I_{max}=1.9\ast I_N=1.9\times 25.29 = 48.05 A$
+ 
+ Daca se admite caderea de tensiune pe bobina de filtraj a circuitului cu redresoare la trecerea curentului nominal, estimat la 2.5\% din tensiunea nominala, rezulta rezistenta:
+ \begin{align*} 
+ R_b=\frac{0.025\times U_N}{I_N}=\frac{0.025\times 190}{25.29}=0.18\Omega
+ \end{align*}
+ Tensiunea maxima la iesirea din puntea redresoare va fi:
+ \begin{align*} 
+ U_{d0}=U_N+R_b\ast I_N= 190+0.18\times 25.29=194.55 V
+ \end{align*}
+ Tensiunea de linie din secundarul transformatorului care alimenteaza puntea redresoare va fi:
+ \begin{align*} 
+U_{l2}=\frac{U_{d0}}{1.35}=144.11 V
+ \end{align*}
+Se mentioneaza de asemenea neglijarea caderilor de tensiune pe tiristoare.
+
+Rezistenta rotorica poate fi apreciata aproximativ, observand ca puterea de pierderi nominale in cuprul rotoric reprezinta circa jumatate din pierderile nominale totale, adica:
+\begin{align*} 
+P_{Cu2}=R_aI_{aN}^2\approx\frac{U_NI_N-P_N}{2}W
+\end{align*}
+\begin{align*}
+R_a\approx\frac{\frac{U_NI_N-P_N}{2}}{I_{aN}^2}=\frac{552.55}{639.58}=0.86\Omega
+\end{align*}
+\subsection{Dimensionarea tiristoarelor}
+Tensiunea inversa de varf, la care va fi solicitat tiristorul va fi :
+\begin{align*}
+U_i=\sqrt{2}U_{l2}=203.92
+\end{align*}
+Valoarea nominala a curentului printr-un tiristor:
+\begin{align*}
+I_{nT}=I_N=25.29A
+\end{align*}
+Cand prin motor va trece curentul maxim, valoarea maxima a curentului prin tiristor va fi :
+\begin{align*}
+I_{nTmax}=2*I_N=50.58A
+\end{align*}
+Pentru alegerea tiristoarelor se mai au in vedere:
+\begin{enumerate}[label=$\bullet$]
+	\item un coeficient de siguranta de aprox. 2, al tensiunii maxime de varf admise de tiristor, fata de tensiunea de varf U;
+	\item temperatura a aerului de racire de \ang{40}C
+\end{enumerate}
+In functie de acestea se aleg din catalogul de tiristoare, tiristoare tip KIT 2848 cu racire pe radiator. Acest tiristor admite o tensiune inversa de varf periodica de 1000V si un curent nominal de 50A.
+Coeficientul de siguranta al tensiunii inverse va fi:
+\begin{align*}
+C_u=\frac{U_{iv}}{U_i}=\frac{1000}{203.92}=4.9
+\end{align*}
+\subsection{Dimensionarea bobinei de filtrare}
+Inductanta bobinei de filtraj se alege astfel incat sa nu existe regim de curent interupt la unghiuri de comanda intre \ang{0} si \ang{90}, in regim de mers in gol.
+
+Se apreciaza curentul de mers in gol la valoarea:
+\begin{align*}
+I_0=0.05I_N=1.26A
+\end{align*}
+Componenta alternativa fundamentala a tensiunii redresate (de frecventa 300Hz fiind redresare trifazata in punte) la $\alpha=\ang{90}$ este:
+\begin{align*}
+U_{300}=0.33U_{d0}=0.33\times 194.55=64.18V
+\end{align*}
+Frecventa redresarii in punte:
+\begin{align*}
+f_p=6\times f=300Hz
+\end{align*}
+Pentru a evita regimul de curent intrerupt trebuie ca valoarea maxima a componentei de 300Hz a curentului $I_{300}$ sa fie mai mica decat curentul de mers in gol:
+\begin{align*}
+\sqrt{2}I_{300}=0.05I_N=\frac{U_{300}\sqrt{2}}{2\pi300L_b}
+\end{align*}
+deci:
+\begin{align*}
+L_b\geq\frac{U_{300}\sqrt{2}}{2\pi300I_0}=\frac{90.76}{2375.04}=38mH
+\end{align*}
+\subsection{Calculul schemei de reglare}
+Schema funcţională a sistemului de reglare automată în care se evidenţiează elementul de execuţie şi traductorul de măsură e prezentat în figura, 13:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.9\linewidth]{fig14.png}
+	\captionof{figure}{schema functionala}
+	\label{fig:test2}
+\end{figure}
+Schema de functionare evidentiează două bucle:
+\begin{enumerate}
+	\item Bucla interioară în care mărimea de reacţie este curentul rotoric al motorului.
+	\item Bucla exterioară în care mărimea de reacţie este turaţia motorului.
+\end{enumerate}
+In aceste figuri s-a notat:
+\begin{enumerate}[label=$\bullet$]
+	\item $T_i$ traductorul de curent rotoric cu funcţia de transfer $HT_i(s)$
+	
+	 $T_n$ traductorul de turatie cu funcţia de transfer $HT_n(s)$
+	\item DCG dispozitiv comandă pe grilă ( porţi tiristoare) cu funcţia de transfer $H DCG (s)$. Redresor comandat cu tiristoare cu funcţia de transfer $H_p(s)$ este partea principală al elementului de execuţie.
+	\item $R_1$ regulator automat de curent din bucla interioară cu funcţia de transfer $HR_1(s)$
+	
+	 $R_2$ regulator de turatie din bucla exterioara cu funcţia de transfer $HR_2(s)$
+	\item $H_1' (s)$ funcţia de transfer a motorului de curent continuu (obiectul condus din bucla interioară).
+	\item $H_2 (s)$ funcţia de transfer a motorului de curent continuu din bucla exterioară.
+\end{enumerate}
+Alegerea aparaturii
+
+Curentul motorului este masurat intr-un amplificator pentru traductoare de 10V/100mV. Pentru obtinerea tensiunii de circa 100mV se foloseste un sunt de 75mV/100A.
+
+Turatia se masoara cu ajutorul unui tahogenerator de curent continuu de 100V/1000rot/min.
+
+\subsection{Bucla de reglare a curentului}
+
+
 \newpage
 \nocite{*}
 \bibliographystyle{ieeetr}
