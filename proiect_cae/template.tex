@@ -636,6 +636,67 @@ $R_2 = 5.1 k\Omega$
 $R_1 = 2.27 k_\Omega$
 \subsection{Circuitul de masurare a turatiei}
 Masurarea turatiei se face printr-un tahogenerator avand coeficientul de transfer $kT_n$ al carui semnal de iesire este introdus in regulator printr-un filtru $T_{fn}$:
+\begin{align*}
+H_{Tn}(s)=\frac{k_{Tn}}{1+sT_{fn}}
+\end{align*}
+cu $k_{Tn}$ astfel incat la 10000 rot/min traductorul sa furnizeze 600V.
+\begin{align*}
+k_{Tn}=\frac{600}{10000}=0.06V\frac{min}{rot}
+\end{align*}
+iar $T_{fn}$ se alege 10ms, in scopul filtrarii componentelor alternative ale tensiunii tahogeneratorului.
+Functia de transfer pentru motor este:
+\begin{align*}
+H_{m2}(s)=\frac{375}{GD^2}\frac{K_m\varphi}{1}\frac{1}{s}=\frac{R_r}{(K_e\varphi)sT_m}=k_m\frac{1}{sT_m}
+\end{align*}
+\begin{align*}
+k_m=\frac{R_r}{k_e\varphi}=\frac{1.04}{0.067}=15.52, iar\ T_m=3.104s
+\end{align*}
+Deoarece $T_{\Sigma i}<1$ functia de reglare a curentului se poate aproxima cu:
+\begin{align*}
+H_{0i}(s)=\frac{1}{1+2sT_{\Sigma i}}
+\end{align*}
+Functia de transfer a circuitului total, exterior regulatorului de turatie este de forma:
+\begin{align*}
+H_{ext}(s)=\frac{k_{Tn}}{1+sT_{fn}}k_M\frac{1}{sT_M}\frac{1+sT_{fi}}{k_f}\frac{1}{1+2sT_{\Sigma i}}
+\end{align*}
+Eliminarea număratorului acestei funcţii, care nu este necesar, se face prin filtrarea mărimii impuse.
+\begin{align*}
+H_{FI}(s)=\frac{1}{1+sT_{fi}}
+\end{align*}
+\begin{align*}
+H_{ext}(s)=\frac{k_{exn}}{1+sT_{\Sigma n}}\frac{1}{sT_m}
+\end{align*}
+Unde:
+\begin{align*}
+k_{exn}=k_{Tn}\ast T_m\ast \frac{1}{k_f}=0.06\ast 3.104 \ast \frac{1}{0.075}=2.48
+\end{align*}
+\begin{align*}
+T_{\Sigma n}=2T_{\Sigma i}+T_{fn}=2\times 4.17 + 10=18.34ms
+\end{align*}
+\subsection{Acordarea optima a regulatorului de turatie}
+Schema echivalentă a buclei exterioare a sistemului de reglare a turatiei:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.9\linewidth]{fig17.png}
+	\captionof{figure}{bucla exterioara}
+	\label{fig:test2}
+\end{figure}
+Intrucat in functionarea regulatorului de turatie este esentiala comportarea la perturbatii a sistemului, se recomanda. alegerea regulatorului astfel incat sa se asigure eroarea nula la variatia treapta a perturbatiei er. Pentru aceasta este necesar ca regulatorul turatiei sa fie de tip PI, iar acordarea sa se efectueze dupa criteriul simetriei, rezultand un pol de ordinul 2 in origine si deci eroarea stationara nula la rampa. Aplicand criteriul simetriei rezulta un regulator ideal care va avea urmatoarea functie de transfer:
+\begin{align*}
+H_{Rn}(s)=k_{Rn}\frac{1+sT_i}{sT_i}
+\end{align*}
+Unde:
+$T_i=4T_{\Sigma n}=4\times 18.34=73.36ms$
+$k_{rn}=\frac{T_m}{2k_{exn}T_{\Sigma n}}=\frac{3104}{2\times 2.48 
+\times 18.34}=34.12$
+
+Alegerea regulatorului proportional integrativ de regalre a turatiei.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.5\linewidth]{fig18.png}
+	\captionof{figure}{Schema regulatorului}
+	\label{fig:test2}
+\end{figure}
 
 \newpage
 \nocite{*}
