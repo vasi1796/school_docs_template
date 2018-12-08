@@ -539,6 +539,103 @@ A vand in vedere ca DCG este un element liniar neinertial functia sa de transfer
 H_{DCG}(s)=11.25 grad/V
 \end{align*}
 \subsection{Circuitul de masurare a curentului}
+Circuitul de masura se comporta ca un element de intarziere de ordinul 1. Suntul are un factor de transfer de $75mV/l100A = 0,75m\Omega$
+
+Traductorul de curent continuu, in ipoteza unor conductoare de racord scurte si de rezistenta mica, are un factor de transfer de 10V/l00mV = 100. Deci factorul de transfer total al circuitului de masurare este:
+
+\begin{align*}
+k_f=\frac{U_{etrad}}{U_{itrad}}\frac{U_{sunt}}{I_{itrad}}=0.075\frac{V}{A}
+\end{align*}
+Filtrarea armonicilor impune utilizarea unei intarzieri data printr-o constanta de timp $T_{ji}=2,5ms$ (factor de atenuare 4,8 pentru frecventa de 300Hz).
+
+Functia de transfer a circuitului de masurare a curentului:
+\begin{align*}
+H_{Ti}(s)=\frac{k_{exi}}{1+sT_{fi}}=\frac{0.075}{1+0.0025s}
+\end{align*}
+In care $T_{fi}=T_{fi}'+T_{fi}''$,unde prima marime corespunde filtrului interior al traductorului iar cea de-a doua corespunde filtrului ce se va monta pe intrarea regulatorului. Functia de transfer a circuitului total, exterior regulatorului este de forma:
+\begin{align*}
+H_{exi}(s)=\frac{k_{exi}}{1+sT_{\Sigma i}}\frac{sT_m}{1+sT_m+s^2T_mT_r}
+\end{align*}
+Tinand seama de teorema constantelor de timp mici rezulta:
+\begin{align*}
+T_1=T_r=51ms
+\end{align*}
+\begin{align*}
+T_{\Sigma i}=T_p+T_{fi}=1.67+2.5=4.17ms
+\end{align*}
+in care, $T_{\Sigma i}$ reprezinta suma constantelor de timp mici parazite din bucla de reglare a curentului. Aceste costante sunt:
+\begin{enumerate}[label=$\bullet$]
+	\item constanta de timp $T_{fi}$ a filtrului de pe calea de reactie;
+	\item timpul mort al puntii redresoare $T_p$
+\end{enumerate}
+Deoarece $2T_{\Sigma i}<T_m$ in cazul alimentarii indusului prin redresoare comandate, expresia functiei de transfer a circuitului exterior regulatorului se poate aproxima prin:
+\begin{align*}
+H_{exi}(s)=\frac{k_{exi}}{(1+sT_1)(1+sT_{\Sigma i})}
+\end{align*}
+unde:
+\begin{align*}
+k_{exi}=k_{deg}\times k_p \times k_f \times \frac{1}{R_r}= 11.2 \times 3.392 \times 0.075 \times \frac{1}{1.04}=2.73
+\end{align*}
+\subsection{Acordarea optima a regulatorului curentului}
+Bucla de curent se optimizeaza prin folosirea criteriului modulului. Corespunzator functiei de transfer a obiectului reglat se va utiliza un regulator PI. Varianta Kessler a criteriului modulului spune ca pentru a rezulta o acordare optima este necesar ca functia de transfer a regulatorului sa aiba o expresie de forma:
+\begin{align*}
+H_R(s)=\frac{\prod_{k=1}^{n}(1+s\tau_k)}{s\tau_i}
+\end{align*}
+unde $T_k=T_1=51ms$ si $T_i=2\ast k_{exi}\ast T_{\Sigma i}=22.76ms$, reprezinta constante de timp.
+Un regulator PI ideal va avea functia de transfer a unui element PI:
+\begin{align*}
+H_{Ri}(s)=k_{ri}\frac{1+sT_i}{sT_i}
+\end{align*}
+Se observa ca rezulta pentru n = 1 un regulator care are urmatorii parametrii de acord optim:
+\begin{align*}
+T_1=T_i=51ms
+\end{align*}
+\begin{align*}
+\tau_i=\frac{T_i}{k_{Ri}}=2k_{exi}T_{\Sigma i}=2\ast 2.73 \ast 4.17=22.76 ms
+\end{align*}
+\begin{align*}
+k_{Ri}=\frac{\tau_1}{\tau_i}=\frac{51}{22.76}=2.24
+\end{align*}
+Schema echivalentă a buclei interioare a sistemului de reglare a curentului rotoric
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.9\linewidth]{fig15.png}
+	\captionof{figure}{bucla interioara}
+	\label{fig:test2}
+\end{figure}
+Functia de transfer a sistemului deschis a buclei de reglare a curentului devine:
+\begin{align*}
+H_{0i}(s)=H_{Ri}(s)H_{exi}(s)=\frac{T_1}{2k_{exi}T_{\Sigma i}}\frac{1+sT_i}{sT_i}\frac{k_{exi}}{(1+sT_i)(1+sT_{\Sigma i})}
+\end{align*}
+\begin{align*}
+H_{di}(s)=\frac{1}{2sT_{\Sigma i}(1+sT_{\Sigma i})}
+\end{align*}
+Rezulta un pol in origine ceea ce asigura o eroare stationara nula pentru marimea de intrare treapta unitara.
+
+Functia de transfer a sistemului inchis de reglare a curentului este:
+\begin{align*}
+H_{0i}(s)=\frac{H_{di}(s)}{1+H_{di}(s)}=\frac{1}{2T_{\Sigma i}^2s^2+2T_{\Sigma i}s+1}
+\end{align*}
+Alegerea regulatorului proportional integral de reglare a curentului
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.6\linewidth]{fig16.png}
+	\captionof{figure}{Schema unui bloc de reglare de tip PI}
+	\label{fig:test2}
+\end{figure}
+$k_{Ri}=\frac{R_2}{R_1}=2.24$ 
+
+$T_i=R_2C_2=51ms$
+
+Alegem:
+
+$C_2=10\mu F$
+
+$R_2 = 5.1 k\Omega$
+
+$R_1 = 2.27 k_\Omega$
+\subsection{Circuitul de masurare a turatiei}
+Masurarea turatiei se face printr-un tahogenerator avand coeficientul de transfer $kT_n$ al carui semnal de iesire este introdus in regulator printr-un filtru $T_{fn}$:
 
 \newpage
 \nocite{*}
