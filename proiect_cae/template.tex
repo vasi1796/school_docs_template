@@ -698,6 +698,96 @@ Alegerea regulatorului proportional integrativ de regalre a turatiei.
 	\label{fig:test2}
 \end{figure}
 
+$k_{Rn}=\frac{R_2}{R_1}=34.12$
+
+$T_i=R_2C_2=73.36ms$
+
+Alegem:
+$C_2=10\mu F$
+
+$R_2=7336 \Omega=7.33 k\Omega$
+
+$R_1=\frac{7336}{34.12}=215 \Omega$
+
+Functia de transfer a sistemului deschis a buclei de reglare a turatiei devine:
+\begin{align*}
+H_{dn}(s)=H_{Rn}(s)H_{exn}(s)=\frac{T_m}{2k_{exn}T_{\Sigma n}}\frac{1+4sT_{\Sigma n}}{4sT_{\Sigma n}}\frac{k_{exn}}{1+sT_{\Sigma n}}\frac{1}{sT_m}
+\end{align*}
+\begin{align*}
+H_{dn}(s)=\frac{4T_{\Sigma n}s+1}{8s^2T_{\Sigma n}^2(1+sT_{\Sigma i})}
+\end{align*}
+Rezulta un pol de ordinul doi in origine ceea ce asigura o eroare stationara nuIa pentru marimea de intrare rampa unitara.
+
+Funcţia de transfer a sistemului închis de pe bucla exterioară devine:
+\begin{align*}
+H_{0n}(s)=\frac{H_{dn}(s)}{1+H_{dn}(s)}=\frac{\frac{\omega_n^2}{z}(s+z)}{(s^2+2\zeta\omega_ns+\omega_n^2)(s+p)}
+\end{align*}
+Unde s-a notat:
+\begin{align*}
+\omega_n=\frac{1}{2T_{\Sigma n}}\frac{1}{2\times 0.01834}=27.26
+\end{align*}
+\begin{align*}
+\zeta\omega_n=\frac{1}{4T_{\Sigma n}}\implies\zeta=\frac{1}{4\times 0.0183\times 27.26}=0.5
+\end{align*}
+\begin{align*}
+\sigma=e^{-\frac{\zeta \pi}{\sqrt{1-\zeta^2}}}=e^{-1.812}=0.163\implies\sigma=16.3 \%
+\end{align*}
+Se evidenţiază că sistemul închis are doi poli dominanţi plus o pereche pol - zerou(un dipol). Parametrii $\omega_n$ şi $\zeta$ dau un suprareglaj ($\sigma = 16.3\% $). Pentru îmbunătăţirea suprareglajului se modifica:
+\begin{align*}
+T_i=5.5T_{\Sigma n}=100.87 ms
+\end{align*}
+\begin{align*}
+T_{\Sigma n}=18.34ms
+\end{align*}
+\begin{align*}
+k_{Rn}=\frac{T_m}{2.54k_{exn}T_{\Sigma n}}=\frac{3104}{2.54 \times 2.48 \times 18.34}=26.86
+\end{align*}
+astfel ca parametrii regulatorului de figura 13 vor fi urmatorii:
+$k_{Rn}=\frac{R_2}{R_1}=26.86$
+
+$T_i=R_2C_2=100.87$
+
+Alegem:
+
+$C_2=10\mu F$
+
+$R_2=10 k\Omega$
+
+$R_1=\frac{1000}{26.86}=372\Omega$
+
+Functia de transfer a sistemului deschis a buclei de reg1are a turatiei devine:
+\begin{align*}
+H_{0n}(s)=H_{Rn}(s)H_{exn}(s)=\frac{T_m}{2.54k_{exn}T_{\Sigma n}}\frac{1+5.5sT_{\Sigma n}}{5.5sT_{\Sigma n}}\frac{k_{exn}}{1+sT_{\Sigma n}}\frac{1}{sT_m}
+\end{align*}
+\begin{align*}
+H_{dn}(s)=\frac{5.5T_{\Sigma n}s+1}{14s^2T_{\Sigma n}^2(1+sT_{\Sigma i})}
+\end{align*}
+Funcţia de transfer a sistemului închis de pe bucla exterioară devine:
+\begin{align*}
+H_{0n}(s)=\frac{5.5T_{\Sigma n}s+1}{14s^2T_{\Sigma n}^2(1+sT_{\Sigma i})+5.5T_{\Sigma n}s+1}
+\end{align*}
+Unde s-a notat:
+\begin{align*}
+\omega_n=\frac{1}{T_{\Sigma n}\times 2.54}=\frac{1}{2.54 \times 0.01834}=20.61
+\end{align*}
+\begin{align*}
+p=\frac{1}{2T_{\Sigma n}};z=\frac{1}{5.5T_{\Sigma n}}
+\end{align*}
+\begin{align*}
+\zeta \omega_n=\frac{1}{5.5T_{\Sigma n}}\implies \zeta=\frac{1}{5.5 \times 0.0183\times 20.61}=0.66
+\end{align*}
+rezulta suprareglajul:
+\begin{align*}
+\sigma=e^{-\frac{\zeta \pi}{\sqrt{1-\zeta^2}}}=e^{-2.67}=0.069\implies\sigma=6.9 \%
+\end{align*}
+timpul primului maxim:
+\begin{align*}
+t_m=\frac{\pi}{\omega_n\sqrt{1-\zeta^2}}=\frac{3.14}{20.61\sqrt{1-0.43}}=\frac{3.14}{15.56}=0.20
+\end{align*}
+gradul de amortizare:
+\begin{align*}
+\delta=1-\frac{\delta_2}{\delta}=1-e^{-\frac{\zeta \pi}{\sqrt{1-\zeta^2}}}=0.931
+\end{align*}
 \newpage
 \nocite{*}
 \bibliographystyle{ieeetr}
