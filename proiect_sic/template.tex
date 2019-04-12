@@ -123,16 +123,65 @@ Se va realiza o implementare a regulatorului proiectat, în limbajul C/C++, care
 	\item Proiectul poate fi predat până la data examenului scris.
 \end{enumerate}
 \newpage
-\section{Rezolvare}
-\subsection{Proiectarea unui regulator PID prin metode de cvasi-optim: varianta Kessler}
-Se consideră funcția de transfer:
-\EqRow
-\begin{equation}
-G_p(s)=\frac{1.1}{(0.7s+1)(0.5s+1)(10s+1)}
+\section{Considerații teoretice}
+\subsection{Introducere in logica Fuzzy}
+Abordarea inginerească „clasică”, strictă, a realităţii este una în special cantitativă, bazată pe
+modelări matematice exprimate în forme care inspiră exactitatea. Într-o astfel de abordare,
+aprecierea de ordin calitativ a mărimilor, valorilor, rezultatelor etc. este greu interpretabilă,
+deoarece acestea au valori stricte, bine precizate. Într-un context strict, modelele disponibile
+sunt exacte (de fapt cât mai exacte posibil, cu aproximări şi supoziţii), iar sistemele de
+comandă şi control sunt dezvoltate în strânsă legătură cu acestea.
+\\
+Aplicaţiile practice în domeniul ingineriei electrice, bazate pe teoria mulţimilor fuzzy, între
+care şi controlul fuzzy, includ un mecanism de evaluare numerică a aprecierilor calitative,
+proprii exprimării uzuale ale experienţei. Abordarea problemelor se extinde, incluzând şi
+aprecieri calitative ale rezultatelor.
+\\
+Aplicaţiile curente în inginerie şi mai exact în control automat apelează doar o parte restrânsă a teoriei mulţimilor fuzzy, care se dovedeşte relativ uşor accesibilă.
+\\
+O propoziţie fuzzy simplă este o sintagmă de forma “ este ”, în care x este o variabilă fuzzy, iar A este un termen lingvistic (atribut) ce poate caracteriza variabila. Prin analogie, o propoziţie strictă este descrisă printr-o egalitate . Propoziţiile fuzzy conţin cuvântul “este”, care ţine loc semnului “=” din relaţiile stricte.
+\\
+Valoarea de adevăr a propoziţiei fuzzy este descrisă de funcţia de apartenenţă a mulţimii fuzzy A, adică, pentru o valoare strictă putem preciza în ce măsură “ este ” prin valoarea lui .
+\subsection{Interferente de tip Sugeno-Takagi}
+În unele aplicaţii practice concrete, procedura stabilirii unei baze de reguli poate consta într-o procesare a unui set de date non-fuzzy (reale). Finalitatea acestei prelucrări ar putea fi transpunerea acestor date într-o formă lingvistică. Datele non-fuzzy sunt obţinute prin înregistrarea semnalelor utile pentru proiectare - mărime de comandă, mărime de reacţie şi/sau eroare de reglare – şi prin calcularea derivatelor acestora, în funcţie de structura de reglare aleasă. Însă extragerea regulilor fuzzy în forma “dacă ... atunci ...” este considerată dificilă din cauză faptului că nu există proceduri sistematizate.
+\\
+Obţinearea regulilor este strâns legată de mecanismul de inferenţă utilizat.
+Dacă un set de date reale privind funcţionarea procesului este disponibil, se poate adapta mecanismul de inferenţă fuzzy de tip Tagaki, într-o formă utilă şi adecvată datelor numerice. Această adaptare reuşeşte să reducă din volumul de calcule al metodelor de inferenţă obişnuite, prin introducerea unei reprezentări mai degrabă numerice a regulilor fuzzy, care în final nu mai sunt deloc evidenţiate.
+\\
+Forma generală a regulilor fuzzy de tip Sugeno este:
+\begin{equation} 
+daca \ x_1 \ este \ A_{11} \  si \ x_2 \ este \ A_{21} \ este \ atunci \ y_1 = f_1(x_1, x_2),
 \EqRow
 \end{equation}
 
+unde $y_1$ este o valoare crisp (singleton, reală). De obicei $f_1(x_1, x_2)$ este un polinom cu variabilele $x_1$ şi $x_2$ de forma $y_1 = p_1x_1 +q_1x_2+ r_1$.
+$p_1$, $q_1$ si $r_1$ sunt constante (date, cu valori cunoscute).\\
+Indicele inferior 1 se referă la numărul regulii într-o bază de reguli.\\
+O regulă fuzzy Sugeno poate fi:
+\begin{itemize}
+	\item de ordinul zero (daca $p_i,q_i=0$)
+	\item de ordinul unu (daca $p_i$ sau $q_i \ne 0$)
+	\item de ordinul doi (daca $p_i$ sau $q_i \ne 0$)
+\end{itemize}
 
+\subsection{Structura sistemului de reglare}
+Se consideră structura clasică de reglare, cu un singur regulator principal, aflat pe calea directă a sistemului. Această structură permite o comparaţie uşoară a performanţelor regulatoarelor fuzzy cu cele ale regulatoarelor clasice, evident pe baza cunoştinţelor prealabile necesare de ingineria reglării automate.\\
+Structura de reglare convenţională este un sistem cu reacţie negativă, considerată unitară pentru o simplificare iniţială. Pe calea de reacţie este preluată mărimea de ieşire a părţii fixe $y(t)$, care practic este un semnal achiziţionat corespunzător mărimii supuse reglării. Mărimea de ieşire măsurată este comparată cu o mărime de referinţă $r(t)$, care defineşte evoluţia dorită în timp a sistemului, iar diferenţa celor două reprezintă eroarea de reglare:\\
+\begin{equation} 
+e(t) = r(t) – y(t)
+\EqRow
+\end{equation}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{struct_reg.png}
+	\captionof{figure}{Structura conventionala de reglare}
+	\label{fig:test2}
+\end{figure}
+
+\newpage
+\section{Rezolvare}
+
+\newpage
 \section{Concluzii}
 Din punct de vedere al ușurinței de proiectare criteriul modului varianta Kessler este cel mai accesibil algoritm. Însă performanțele obținute cu acest regulator nu au îndeplinit cerința timpului de stabilire de 3 secunde sau cea a suprareglajului de 4.56\%. Din acest motiv s-a pornit de la regulatorul PI obținut prin varianta Kessler, s-a adăugat o componentă derivativă pentru a micșora suprareglajul, s-a modificat de asemenea și $T_i$ pentru a reduce timpul de stabilire și s-a ajuns la o performanță foarte apropiată de cea impusă, timpul de stabilire fiind mai lung cu 0.2 secunde.\\
 Datorită îndeplinirii criteriilor de performanță, regulatorul obținut prin încercări are și implementare în limbajul C, deși algoritmul propus poate fi aplicat foarte ușor pentru orice ecuație cu diferențe, fiind generic.\\
