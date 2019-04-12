@@ -1,0 +1,147 @@
+%!TeX program = xelatex
+\documentclass[11pt]{article}
+
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\usepackage{amsmath} 
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{fontspec}
+\usepackage{cite}
+\usepackage{listings}
+%\setmainfont{UT Sans}
+\usepackage{geometry}
+\usepackage{xcolor}
+
+\lstdefinestyle{customc}{
+	belowcaptionskip=1\baselineskip,
+	breaklines=true,
+	frame=L,
+	xleftmargin=\parindent,
+	language=C,
+	showstringspaces=false,
+	basicstyle=\large\ttfamily,
+	keywordstyle=\bfseries\color{green!40!black},
+	commentstyle=\itshape\color{purple!40!black},
+	identifierstyle=\color{blue},
+	stringstyle=\color{orange},
+}
+
+\lstset{escapechar=@,style=customc}
+
+\geometry{a4paper,left=20mm,right=20mm,total={160mm,220mm}}
+\pagestyle{fancy}
+\thispagestyle{plain}
+\fancyheadoffset{0cm}
+\rhead{\textit{Andrei Vasilcoi}\\Grupa 4452}
+
+\renewcommand*\contentsname{Cuprins}
+\renewcommand*\tablename{Tab.}
+\renewcommand*\figurename{Fig.}
+\renewcommand\refname{Bibliografie}
+\renewcommand{\theenumi}{\Alph{enumi}}
+\author{Andrei Vasilcoi}
+\newcommand{\EqRow}{\vspace{1.5mm}}
+\begin{document}
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+	
+\begin{center}
+	%autor si indrumator mai jos
+\textsc{\LARGE Universitatea Transilvania din Brașov}\\[0.5cm]
+\includegraphics[width=0.25\textwidth]{logo_ut.jpg}\\[0.5cm]
+\textsc{\Large Facultatea de Inginerie Electrică și Știința Calculatoarelor}\\[0.5cm]
+\textsc{\large Departament Automatică și Informatică Aplicată}\\[1.5cm]
+\HRule\\[0.5cm]
+{\Large Proiect \textit{Sisteme inteligente de control}}\\[0.5cm]
+{\LARGE\bfseries Tema nr. 59}\\[0.5cm]
+\HRule\\[2.5cm]
+\begin{minipage}{1\textwidth}
+	\begin{flushleft}
+		\large
+		\textit{Autor}\\
+		Andrei \textsc{Vasilcoi}\\
+	\end{flushleft}
+\end{minipage}
+~
+\end{center}
+\centering
+\vspace{5cm}
+{\large Mai 2019, Brașov}\\[5cm]
+\end{titlepage}
+
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+
+\newpage	
+\section{Tema proiectului}
+Se va proiecta un regulator fuzzy pentru controlul unui proces descris de funcția de transfer:
+\EqRow
+\begin{equation} 
+G_p(s)=\frac{K_p}{(sT_{1}+1)(sT_{2}+1)}
+\EqRow
+\end{equation}
+Se va realiza o implementare a regulatorului proiectat, în limbajul C/C++, care ulterior se va testa pentru diverse valori ale mărimilor de intrare ale sistemului de inferență prin comparație cu funcționarea aceluiași sistem de inferențe realizat în Matlab.
+
+\begin{center}
+\captionof{table}{Date de proiectare}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+	\hline
+	{\multirow{2}{*}{Tema nr.} } &  \multicolumn{3}{ c| }{Parametrii procesului} & {\multirow{2}{*}{$M_{v}$}} & {\multirow{2}{*}{$t_{s}$}} & {\multirow{2}{*}{$e_{st}$}} &{\multirow{2}{*}{Student}} \\ \cline{2-4}
+	&$K_p$ & $T_{1}$ & $T_{2}$ & & &  &\\ 
+	\hline
+ \multirow{2}*{59} & \multirow{2}*{1} & \multirow{2}*{120} & \multirow{2}*{5} &\multirow{2}*{4\%} &\multirow{2}*{120} & \multirow{2}*{0\%} & \multirow{2}*{Vasilcoi S. Andrei} \\ &&&&&&& \\
+	\hline
+\end{tabular}
+\end{center}
+
+\section{Indicații și recomandări}
+\begin{enumerate}[label=\alph*)]
+	\item Proiectarea și analiza sistemului de reglare se va face folosind mediul Matlab-Simulink. Implementarea în program se va face doar după determinarea sistemului de inferențe cu care se obțin performanțele impuse.
+	\item Nu sunt impuse restricții pentru tipul regulatorului fuzzy sau tipul inferențelor utilizate, decât aceea că alegerea acestora trebuie să conducă la obținerea performanțelor.
+	\item Programul realizat va fi testat prin comparație cu funcționarea sistemului implementat în mediul Matlab. Se vor lua diverse valori ale variabilelor de intrare ale sistemului de inferență pentru care se vor înregistra valorile de ieșire obținute în Matlab și cele obținute cu ajutorul programului.
+\end{enumerate}
+\section{Conținutul minimal al proiectului}
+\begin{enumerate}[label=\alph*)]
+	\item Enunțul și descrierea problemei.
+	\item Prezentarea sistemului de reglare și a structurii regulatorului fuzzy ales. Obs: Se va justifica alegerea tipului de regulator.
+	\item Prezentarea sistemului de inferență obținut (variabile fuzzy, funcții de apartenență, reguli, tipul inferenței fuzzy, caracteristica statică, metoda de defuzzificare – dacă este cazul – etc.). Obs: Se vor justifica toate alegerile referitoare la sistemul de inferență.
+	\item Prezentarea rezultatelor simulării sistemului de reglare proiectat (Matlab-Simulink).
+	\item Prezentarea particularităților de implementare, utilizate la realizarea programului.
+	\item Se vor anexa schema Simulink și programul realizat.
+\end{enumerate}
+\section{Condiții pentru susținerea proiectului}
+\begin{enumerate}[label=\alph*)]
+	\item Proiectul va fi prezentat și susținut. Se vor adresa întrebări referitoare la noțiuni de bază și aspecte întâlnite în realizarea lui.
+	\item Proiectul predat trebuie să conțină: redactarea (format electronic și printat), fișierele obținute cu ajutorul aplicației de editare a sistemelor de inferență fuzzy, schemele Simulink, codul sursă al programului și fișierul executabil.
+	\item Proiectul poate fi predat până la data examenului scris.
+\end{enumerate}
+\newpage
+\section{Rezolvare}
+\subsection{Proiectarea unui regulator PID prin metode de cvasi-optim: varianta Kessler}
+Se consideră funcția de transfer:
+\EqRow
+\begin{equation}
+G_p(s)=\frac{1.1}{(0.7s+1)(0.5s+1)(10s+1)}
+\EqRow
+\end{equation}
+
+
+\section{Concluzii}
+Din punct de vedere al ușurinței de proiectare criteriul modului varianta Kessler este cel mai accesibil algoritm. Însă performanțele obținute cu acest regulator nu au îndeplinit cerința timpului de stabilire de 3 secunde sau cea a suprareglajului de 4.56\%. Din acest motiv s-a pornit de la regulatorul PI obținut prin varianta Kessler, s-a adăugat o componentă derivativă pentru a micșora suprareglajul, s-a modificat de asemenea și $T_i$ pentru a reduce timpul de stabilire și s-a ajuns la o performanță foarte apropiată de cea impusă, timpul de stabilire fiind mai lung cu 0.2 secunde.\\
+Datorită îndeplinirii criteriilor de performanță, regulatorul obținut prin încercări are și implementare în limbajul C, deși algoritmul propus poate fi aplicat foarte ușor pentru orice ecuație cu diferențe, fiind generic.\\
+Pentru metoda experimentală Ziegler-Nichols s-au obținut cele mai slabe performanțe iar metoda de proiectare este relativ dificilă dacă nu avem instrumentele adecvate pentru a determina panta și  pentru a găsi punctul de inflexiune din datele achiziționate. Odată obținute însă valorile $\alpha$ și $L$ se pot încerca diferite tipuri de regulatoare având de făcut niște substituții simple.\\
+Regulatorul proiectat după stare a fost cel mai ușor de implementat și testat cu programul Matlab. Singurul impediment este constituit de alegerea polilor conjugați și găsirea unei metode algoritmice de a-i găsi. Metoda aplicată în acest proiect se folosește de forma generală a unui sistem de gradul II și indicatorii de calitate la mărimea de intrare treaptă unitară.  
+\newpage
+
+\nocite{*}
+\bibliographystyle{ieeetr}
+\bibliography{bibliografie}
+
+\end{document}
