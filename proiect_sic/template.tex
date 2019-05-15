@@ -173,20 +173,111 @@ e(t) = r(t) – y(t)
 \end{equation}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\linewidth]{struct_reg.png}
+	\includegraphics[width=0.7\linewidth]{struct_reg.png}
 	\captionof{figure}{Structura conventionala de reglare}
 	\label{fig:test2}
 \end{figure}
 
+\subsection{Structura regulatorului fuzzy}
+Regulatoarele fuzzy sunt una din aplicaţiile importante a teoriei mulţimilor fuzzy. Un sistem de reglare cu regulator fuzzy are principalul avantaj al faptului că permite toleranţă la incertitudine şi imprecizie, aspect demonstrat de numeroase aplicaţii practice.
+În varianta clasică, un regulator fuzzy are structura minimală descrisă în figura urmatoare.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{struct_reg_teorie.png}
+	\captionof{figure}{Schema regulatorului fuzzy}
+	\label{fig:test2}
+\end{figure}
 \newpage
 \section{Rezolvare}
 
-\newpage
-\section{Concluzii}
-Din punct de vedere al ușurinței de proiectare criteriul modului varianta Kessler este cel mai accesibil algoritm. Însă performanțele obținute cu acest regulator nu au îndeplinit cerința timpului de stabilire de 3 secunde sau cea a suprareglajului de 4.56\%. Din acest motiv s-a pornit de la regulatorul PI obținut prin varianta Kessler, s-a adăugat o componentă derivativă pentru a micșora suprareglajul, s-a modificat de asemenea și $T_i$ pentru a reduce timpul de stabilire și s-a ajuns la o performanță foarte apropiată de cea impusă, timpul de stabilire fiind mai lung cu 0.2 secunde.\\
-Datorită îndeplinirii criteriilor de performanță, regulatorul obținut prin încercări are și implementare în limbajul C, deși algoritmul propus poate fi aplicat foarte ușor pentru orice ecuație cu diferențe, fiind generic.\\
-Pentru metoda experimentală Ziegler-Nichols s-au obținut cele mai slabe performanțe iar metoda de proiectare este relativ dificilă dacă nu avem instrumentele adecvate pentru a determina panta și  pentru a găsi punctul de inflexiune din datele achiziționate. Odată obținute însă valorile $\alpha$ și $L$ se pot încerca diferite tipuri de regulatoare având de făcut niște substituții simple.\\
-Regulatorul proiectat după stare a fost cel mai ușor de implementat și testat cu programul Matlab. Singurul impediment este constituit de alegerea polilor conjugați și găsirea unei metode algoritmice de a-i găsi. Metoda aplicată în acest proiect se folosește de forma generală a unui sistem de gradul II și indicatorii de calitate la mărimea de intrare treaptă unitară.  
+Am ales regulator fuzzy de tip PD ce foloseste inferente de tip Sugeno-Takagi.
+Legea de reglare a regulatoarelor convenţionale este:
+\begin{equation} 
+u=K_p*e+K_d*d_e
+\EqRow
+\end{equation}
+Unde $K_d=T_d$// Remarcăm aici faptul că la regulatoarele fuzzy, ca de altfel şi la cele numerice, nu este necesară filtrarea care se introduce la regulatoarele analogice din motive de realizabilitate fizică a acestora. Considerente similare vom avea şi în cazul regulatoarelor fuzzy (numerice) PID.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\linewidth]{schema_pid.PNG}
+	\captionof{figure}{Schema regulator fuzzy PID}
+	\label{fig:test2}
+\end{figure}
+
+Variabilele lingvistice pentru un regulator fuzzy PD vor fi:
+\begin{itemize}
+	\item eroarea
+	\item derivata erorii
+	\item comanda
+\end{itemize}
+O regulă tipică din bază are acum formularea:\\
+Dacă e este E și de este DE atunci u este U.\\
+Regulatorul a fost ales pe baza experimentelor,regulatorul PD fiind cel care a oferit rezultatele cele mai bune.\\
+Regulatorul fuzzy primește ca intrare eroarea și derivată erorii iar la ieșire va indica mărimea de comandă,universul de discurs este [-1,1].\\
+Eroarea(e) este compusă din 5 funcții de apartenență de tipul triunghi :
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{var_e.PNG}
+	\captionof{figure}{Functiile de apartenenta ale erorii}
+	\label{fig:test2}
+\end{figure}
+Derivata erorii(de) este definită de 3 funcții de de apartenență de tip triunghi.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{var_de.PNG}
+	\captionof{figure}{Functiile de apartenenta ale derivatei erorii}
+	\label{fig:test2}
+\end{figure}
+Iesirera sistemului, mărimea de comandă, este definită prin 5 valori constate coresunzatoare combinatiilor celor 2 marimi de intrare:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{iesire.PNG}
+	\captionof{figure}{Valorile marimii de iesire}
+	\label{fig:test2}
+\end{figure}
+Avand:
+\begin{itemize}
+	\item PB = 1
+	\item PS = 0.5
+	\item ZE = 0
+	\item NS = -0.5
+	\item NB = -1
+\end{itemize}
+Baza de reguli este aleasă experimental pe baza considerațiilor dobândite în cadrul cursului:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\linewidth]{rules.PNG}
+	\captionof{figure}{Baza de reguli a regulatorului fuzzy}
+	\label{fig:test2}
+\end{figure}
+Schema bloc de reglare folosita:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{schema_sim.PNG}
+	\captionof{figure}{Schema sistemului de reglare in Simulink}
+	\label{fig:test2}
+\end{figure}
+Parametrii de simulare au fost determinați pe baza rezultatelor experimentale, astfel că sistemul se încadrează în specificațiile de proiectare impuse inițial.
+Parametrii impusi sunt:
+\begin{itemize}
+	\item Eroarea staționară maximă $e_{st} = 0\%$
+	\item Suprareglajul maxim $M_v = 4\%$
+	\item Timpul de stabilire maxim $t_s = 120s$
+\end{itemize}
+Performantele obtinute de sistemul de reglare:
+\begin{itemize}
+	\item Eroarea staționară maximă $e_{st} = 0\%$
+	\item Suprareglajul maxim $M_v = 3\%$
+	\item Timpul de stabilire maxim $t_s = 56s$
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{diagrama.PNG}
+	\captionof{figure}{Graficul semnalului de iesire}
+	\label{fig:test2}
+\end{figure}
+Implementarea regulatorului fuzzy a fost realizată în Microsoft Visual Studio 2017, în limbajul de programare C++, în Tabelul 1.1 se regăsește o paralelă între câteva valori aleatoare determinate în Matlab și cele determinate în programul de implementare.
 \newpage
 
 \nocite{*}
