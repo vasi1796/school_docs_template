@@ -196,12 +196,13 @@ Legea de reglare a regulatoarelor convenţionale este:
 u=K_p*e+K_d*d_e
 \EqRow
 \end{equation}
-Unde $K_d=T_d$// Remarcăm aici faptul că la regulatoarele fuzzy, ca de altfel şi la cele numerice, nu este necesară filtrarea care se introduce la regulatoarele analogice din motive de realizabilitate fizică a acestora. Considerente similare vom avea şi în cazul regulatoarelor fuzzy (numerice) PID.
+Unde $K_d=T_d$\\
+ Remarcăm aici faptul că la regulatoarele fuzzy, ca de altfel şi la cele numerice, nu este necesară filtrarea care se introduce la regulatoarele analogice din motive de realizabilitate fizică a acestora. Considerente similare vom avea şi în cazul regulatoarelor fuzzy (numerice) PD.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.4\linewidth]{schema_pid.PNG}
-	\captionof{figure}{Schema regulator fuzzy PID}
+	\captionof{figure}{Schema regulator fuzzy PD}
 	\label{fig:test2}
 \end{figure}
 
@@ -268,16 +269,35 @@ Parametrii impusi sunt:
 Performantele obtinute de sistemul de reglare:
 \begin{itemize}
 	\item Eroarea staționară maximă $e_{st} = 0\%$
-	\item Suprareglajul maxim $M_v = 3\%$
-	\item Timpul de stabilire maxim $t_s = 56s$
+	\item Suprareglajul maxim $M_v = 2.4\%$
+	\item Timpul de stabilire maxim $t_s = 53s$
 \end{itemize}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\linewidth]{diagrama.PNG}
+	\includegraphics[width=0.6\linewidth]{diagrama.PNG}
 	\captionof{figure}{Graficul semnalului de iesire}
 	\label{fig:test2}
 \end{figure}
-Implementarea regulatorului fuzzy a fost realizată în Microsoft Visual Studio 2017, în limbajul de programare C++, în Tabelul 1.1 se regăsește o paralelă între câteva valori aleatoare determinate în Matlab și cele determinate în programul de implementare.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{evidentiere_supra.PNG}
+	\captionof{figure}{Evidentiere suprareglaj}
+	\label{fig:test2}
+\end{figure}
+Implementarea regulatorului fuzzy a fost realizată în Microsoft Visual Studio 2017, în limbajul de programare C++, în Tab. 2 se regăsește o paralelă între câteva valori aleatoare determinate în Matlab și cele determinate în programul de implementare.
+\begin{center}
+	\captionof{table}{Comparatie rezultat program C++ si Matlab}
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		Eroare&Derivata erorii&Comanda C++&Comanda Matlab\\
+		\hline
+		0.8191&-0.3025&0.91&1\\
+		-0.5979&-0.2757&-0.7243&-0.7243\\
+		-0.1942&-0.2328&-0.7328&-0.7328\\
+		0.1278&0.0010&0.32&0.5\\
+		\hline
+	\end{tabular}
+\end{center}
 \newpage
 
 \nocite{*}
